@@ -98,3 +98,21 @@
       fail('could not be read (' + e.message + ')');
     });
 })();
+
+/* Autoplay nudge. A strict autoplay policy, or iOS low-power mode, can leave a
+   muted looping teaser parked on its poster. Start it, and retry once on the
+   first real interaction. No controls, no second script. */
+(function () {
+  var videos = document.querySelectorAll('video[autoplay]');
+  var kick = function () {
+    Array.prototype.forEach.call(videos, function (v) {
+      if (!v.paused) return;
+      var started = v.play();
+      if (started && started.catch) started.catch(function () {});
+    });
+  };
+  kick();
+  ['pointerdown', 'keydown', 'touchstart'].forEach(function (ev) {
+    window.addEventListener(ev, kick, { once: true, passive: true });
+  });
+})();

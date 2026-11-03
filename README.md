@@ -11,7 +11,7 @@ Served by its own `caddy:2-alpine` container running `file_server`.
 ```
 site/index.html              the whole page
 site/assets/style.css        the whole stylesheet
-site/assets/stats.js         the only script: fetches /assets/stats.json
+site/assets/app.js          the only script: fetches /assets/stats.json
 site/assets/stats.json       generated on the host, never edited by hand
 site/assets/fonts/*.woff2    Space Grotesk (300–700) + JetBrains Mono (400–700)
 scripts/collect-stats.sh     the generator for stats.json

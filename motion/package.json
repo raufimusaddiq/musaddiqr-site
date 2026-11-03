@@ -5,7 +5,7 @@
   "description": "Two 26s motion pieces for musaddiqr.com, rendered with Remotion.",
   "scripts": {
     "studio": "remotion studio",
-    "render": "remotion render projects out/projects.mp4 --codec=h264 --crf=23 && remotion render agents out/agents.mp4 --codec=h264 --crf=23 && remotion still projects out/projects-poster.jpg --frame=130 && remotion still agents out/agents-poster.jpg --frame=130"
+    "render": "remotion render projects out/projects.mp4 --codec=h264 --crf=23 --muted && remotion render agents out/agents.mp4 --codec=h264 --crf=23 --muted && remotion still projects out/projects-poster.jpg --frame=130 && remotion still agents out/agents-poster.jpg --frame=130"
   },
   "dependencies": {
     "@remotion/cli": "4.0.409",
