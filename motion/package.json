@@ -1,0 +1,16 @@
+{
+  "name": "musaddiqr-motion",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Two 26s motion pieces for musaddiqr.com, rendered with Remotion.",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render projects out/projects.mp4 --codec=h264 --crf=23 && remotion render agents out/agents.mp4 --codec=h264 --crf=23 && remotion still projects out/projects-poster.jpg --frame=130 && remotion still agents out/agents-poster.jpg --frame=130"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.409",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "remotion": "4.0.409"
+  }
+}

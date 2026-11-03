@@ -1,0 +1,4 @@
+motion/node_modules/
+.stats.json.*
+site/assets/motion/*
+!site/assets/motion/.gitkeep
