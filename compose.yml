@@ -1,0 +1,22 @@
+name: musaddiqr-site
+
+services:
+  musaddiqr-site:
+    image: caddy:2-alpine
+    container_name: musaddiqr-site
+    restart: unless-stopped
+    # Static only: the image's file_server, no build, no extra layer.
+    command: caddy file-server --root /srv/site --listen :8080
+    volumes:
+      - ./site:/srv/site:ro
+      # Rendered motion lives in the repo at motion/out; mounted where the page
+      # asks for it, so the videos are not duplicated into site/.
+      - ./motion/out:/srv/site/assets/motion:ro
+    ports:
+      - "127.0.0.1:8280:8080"
+    networks:
+      - idx_default
+
+networks:
+  idx_default:
+    external: true

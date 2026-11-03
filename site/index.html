@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Raufi Musaddiq: agents do the work, I build what holds them</title>
+<meta name="description" content="Agent infrastructure, financial tooling and Indonesian-language media tooling. Handoffs, permission edges and review gates.">
+<meta name="color-scheme" content="light">
+<link rel="stylesheet" href="assets/style.css?v=a91ef82609">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff6fae' stroke='%230b0b0b' stroke-width='3'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="/">Raufi Musaddiq</a>
+    <div class="links">
+      <a href="#work">Work</a>
+      <a href="#agents">Agents</a>
+      <a href="https://github.com/raufimusaddiq">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+<div class="hero">
+  <div class="stats" id="stats" aria-live="polite" aria-busy="true"><p class="state">Reading host figures...</p></div>
+  <p class="stamp" id="stamp">Host figures are a snapshot, not a live reading. The time and age appear below the cards.</p>
+
+  <h1 class="stmt">Agents do the work.<br>I build what <span class="hl">holds them</span>.</h1>
+  <p class="lede">Agent infrastructure, financial tooling, Indonesian-language media tooling. Most of it is the part around the model: the handoff that carries its own context, the gate a change has to pass, the deployment that waits for a person.</p>
+  <p class="status">Currently building routeweft, a routing control plane held in parity with the router it replaces.</p>
+</div>
+
+<section id="work">
+  <h2>Work</h2>
+  <p class="meta">eight public repositories · two private · selected public work</p>
+
+  <a class="proj" href="https://github.com/raufimusaddiq/richmod">
+    <h3 class="nm">richmod</h3>
+    <p class="say">Household finance dashboard. Go + React + Postgres, containerised, deployed through CI.</p>
+    <div class="pm"><span class="chip">Go</span><span class="yr">2026</span></div>
+  </a>
+
+  <a class="proj" href="https://github.com/raufimusaddiq/literouter">
+    <h3 class="nm">literouter</h3>
+    <p class="say">A lighter router over many LLM providers, forked from 9router and reworked.</p>
+    <div class="pm"><span class="chip">JavaScript</span><span class="yr">2026</span></div>
+  </a>
+
+  <a class="proj" href="https://github.com/raufimusaddiq/routeweft">
+    <h3 class="nm">routeweft</h3>
+    <p class="say">A routing control plane, in parity tracking against the router it replaces.</p>
+    <div class="pm"><span class="chip">Go</span><span class="yr">2026</span></div>
+  </a>
+
+  <a class="proj" href="https://github.com/raufimusaddiq/antares">
+    <h3 class="nm">antares</h3>
+    <p class="say">Google-authenticated chat UI for a deployed agent, per-user private profile binding.</p>
+    <div class="pm"><span class="chip">Go</span><span class="yr">2026</span></div>
+  </a>
+
+  <a class="proj" href="https://github.com/raufimusaddiq/sorot">
+    <h3 class="nm">sorot</h3>
+    <p class="say">Long video to vertical 9:16 clips with word-timed captions, for Indonesian short-form.</p>
+    <div class="pm"><span class="chip">TypeScript</span><span class="yr">2026</span></div>
+  </a>
+
+  <a class="proj" href="https://github.com/raufimusaddiq/agenticform">
+    <h3 class="nm">agenticform</h3>
+    <p class="say">Control plane for orchestrating coding agents across projects, tasks and reviews.</p>
+    <div class="pm"><span class="chip">Java</span><span class="yr">2026</span></div>
+  </a>
+
+  <a class="proj" href="https://github.com/raufimusaddiq/agents">
+    <h3 class="nm">agents</h3>
+    <p class="say">The agent UI and its terminal-multiplexer wrapper.</p>
+    <div class="pm"><span class="chip">Python</span><span class="yr">2026</span></div>
+  </a>
+
+  <a class="proj" href="https://github.com/raufimusaddiq/raufimusaddiq">
+    <h3 class="nm">raufimusaddiq</h3>
+    <p class="say">The GitHub profile itself, as a small card.</p>
+    <div class="pm"><span class="yr">2026</span></div>
+  </a>
+
+  <div class="proj">
+    <h3 class="nm">A personal product</h3>
+    <p class="say">Positions, liquidity, and risk, read from live venues and kept honest by continuous reconciliation.</p>
+    <div class="pm"><span class="chip">Go</span><span class="yr">2026</span></div>
+  </div>
+
+  <div class="proj">
+    <h3 class="nm">A market-data pipeline</h3>
+    <p class="say">Scheduled ingestion of market and reference data into a queryable store, with the ingest itself monitored.</p>
+    <div class="pm"><span class="chip">Python</span><span class="yr">2026</span></div>
+  </div>
+</section>
+
+<section>
+  <figure class="mo">
+    <video muted playsinline preload="metadata" controls
+           poster="assets/motion/projects-poster.jpg"
+           width="1920" height="1080" aria-label="The project list, as motion">
+      <source src="assets/motion/projects.mp4" type="video/mp4">
+    </video>
+    <figcaption>Motion: Projects, 26s, 1920×1080</figcaption>
+  </figure>
+</section>
+
+<section id="agents">
+  <h2>Agent integrations</h2>
+  <p class="meta">six mechanisms that run · each one says what it prevents</p>
+
+  <div class="mech pink">
+    <span class="no">01</span>
+    <h3>Agent-to-agent handoff</h3>
+    <p class="say">One agent passes a piece of work to another through a call that carries its own context and its own chat, so the receiving agent starts with the whole brief and answers in the same thread, not in a fresh blank session.</p>
+    <p class="prev"><b>Prevents</b>work arriving as a bare sentence with the reasoning stripped off.</p>
+  </div>
+
+  <div class="mech sun">
+    <span class="no">02</span>
+    <h3>Missions</h3>
+    <p class="say">A multi-ticket job runs inside one worktree, in its own turns, for as long as it takes, instead of one ticket per invocation.</p>
+    <p class="prev"><b>Prevents</b>a long job dying halfway with its state only in a chat log.</p>
+  </div>
+
+  <div class="mech cobalt">
+    <span class="no">03</span>
+    <h3>Scheduled cron jobs</h3>
+    <p class="say">A job runs on a schedule and speaks only when something is wrong.</p>
+    <p class="prev"><b>Prevents</b>a silent failure being found by a person weeks later.</p>
+  </div>
+
+  <div class="mech mint">
+    <span class="no">04</span>
+    <h3>Delegation to a coding agent in its own terminal pane</h3>
+    <p class="say">Code is written by a coding agent with its own session and its own working tree, briefed by a lead that routes and verifies.</p>
+    <p class="prev"><b>Prevents</b>two agents editing one file, and a claim of “done” going unchecked.</p>
+  </div>
+
+  <div class="mech pink">
+    <span class="no">05</span>
+    <h3>The review gate</h3>
+    <p class="say">Every pull request is reviewed by a reviewer agent on the exact commit, findings go back to the authoring agent, fixes are batched into one commit per round, and nothing merges until the gate is satisfied.</p>
+    <p class="prev"><b>Prevents</b>an unreviewed change reaching a deployed service.</p>
+  </div>
+
+  <div class="mech sun">
+    <span class="no">06</span>
+    <h3>One owner per thing</h3>
+    <p class="say">Each piece of work is assigned to exactly one agent and one branch.</p>
+    <p class="prev"><b>Prevents</b>a merge conflict discovered at merge time.</p>
+  </div>
+</section>
+
+<section>
+  <figure class="mo">
+    <video muted playsinline preload="metadata" controls
+           poster="assets/motion/agents-poster.jpg"
+           width="1920" height="1080" aria-label="The six mechanisms, as motion">
+      <source src="assets/motion/agents.mp4" type="video/mp4">
+    </video>
+    <figcaption>Motion: Agent integrations, 26s, 1920×1080</figcaption>
+  </figure>
+</section>
+
+<section id="map">
+  <h2>Connection map</h2>
+  <p class="meta">topology of the actors and artifacts these mechanisms connect</p>
+  <div class="map">
+    <div class="lane">
+      <div class="node pink">human</div><div class="link"></div>
+      <div class="node">agent</div><div class="link"></div>
+      <div class="node">coding agent</div><div class="lbl">brief + context</div>
+    </div>
+    <div class="lane">
+      <div class="node mint">mission</div><div class="link"></div>
+      <div class="node">worktree</div><div class="link"></div>
+      <div class="node blue">review gate</div><div class="lbl">must pass</div>
+    </div>
+    <div class="lane">
+      <div class="node sun">cron</div><div class="link"></div>
+      <div class="node">agent</div><div class="link"></div>
+      <div class="node">pane</div><div class="lbl">speaks only when wrong</div>
+    </div>
+    <div class="lane">
+      <div class="node pink">human</div><div class="link"></div>
+      <div class="node solid">approval</div><div class="link"></div>
+      <div class="node">deployment</div><div class="lbl">nothing crosses alone</div>
+    </div>
+  </div>
+  <p class="cap">Every crossing is explicit: who may read, who may write, who must ask. A handoff carries its own context, so the receiving agent starts with the full brief instead of guessing. Work stops at the gate, and a person makes the final call. Each box names an actor or artifact; the logs stay elsewhere.</p>
+</section>
+
+<section id="principles">
+  <h2>Principles</h2>
+  <div class="prin">
+    <div><span class="no">01</span><p>Verify rather than assume.</p></div>
+    <div><span class="no">02</span><p>One owner per thing.</p></div>
+    <div><span class="no">03</span><p>Docs follow code.</p></div>
+    <div><span class="no">04</span><p>Nothing destructive without a person.</p></div>
+    <div><span class="no">05</span><p>Report honestly, including what is blocked.</p></div>
+  </div>
+</section>
+
+<section id="stack">
+  <h2>Working set</h2>
+  <div class="set">
+    <span>Go</span><span>React</span><span>SQLite</span><span>Docker</span>
+    <span>Caddy</span><span>Cloudflare</span><span>Postgres</span><span>Python</span>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>musaddiqr.com</span>
+    <span>numbers served from the host, not typed by hand</span>
+    <span>2026</span>
+  </div>
+</footer>
+
+<script src="assets/app.js?v=d6b582ca6b" defer></script>
+</body>
+</html>
