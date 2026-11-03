@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Raufi Musaddiq — agents do the work, I build what holds them</title>
+<title>Raufi Musaddiq: agents do the work, I build what holds them</title>
 <meta name="description" content="Agent infrastructure, financial tooling and Indonesian-language media tooling. Handoffs, permission edges and review gates.">
 <meta name="color-scheme" content="light">
-<link rel="stylesheet" href="assets/style.css?v=69540fcde5">
+<link rel="stylesheet" href="assets/style.css?v=a91ef82609">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23ff6fae' stroke='%230b0b0b' stroke-width='3'/%3E%3C/svg%3E">
 </head>
 <body>
@@ -15,7 +15,6 @@
   <div class="wrap">
     <a class="brand" href="/">Raufi Musaddiq</a>
     <div class="links">
-      <span class="pill"><i></i>Host-fed</span>
       <a href="#work">Work</a>
       <a href="#agents">Agents</a>
       <a href="https://github.com/raufimusaddiq">Contact</a>
@@ -25,18 +24,17 @@
 
 <main>
 <div class="hero">
-  <div class="eyebrow">read from the host that runs it</div>
-  <div class="stats" id="stats"></div>
-  <p class="stamp" id="stamp">the latest numbers, read from the machine that serves this page — cards are absent rather than estimated.</p>
+  <div class="stats" id="stats" aria-live="polite" aria-busy="true"><p class="state">Reading host figures...</p></div>
+  <p class="stamp" id="stamp">Host figures are a snapshot, not a live reading. The time and age appear below the cards.</p>
 
   <h1 class="stmt">Agents do the work.<br>I build what <span class="hl">holds them</span>.</h1>
   <p class="lede">Agent infrastructure, financial tooling, Indonesian-language media tooling. Most of it is the part around the model: the handoff that carries its own context, the gate a change has to pass, the deployment that waits for a person.</p>
-  <p class="status"><i></i>Currently building routeweft — a routing control plane held in parity with the router it replaces.</p>
+  <p class="status">Currently building routeweft, a routing control plane held in parity with the router it replaces.</p>
 </div>
 
 <section id="work">
   <h2>Work</h2>
-  <p class="meta">eight public repositories · two private · newest last commit first</p>
+  <p class="meta">eight public repositories · two private · selected public work</p>
 
   <a class="proj" href="https://github.com/raufimusaddiq/richmod">
     <h3 class="nm">richmod</h3>
@@ -101,12 +99,12 @@
 
 <section>
   <figure class="mo">
-    <video autoplay muted loop playsinline preload="metadata"
+    <video muted playsinline preload="metadata" controls
            poster="assets/motion/projects-poster.jpg"
            width="1920" height="1080" aria-label="The project list, as motion">
       <source src="assets/motion/projects.mp4" type="video/mp4">
     </video>
-    <figcaption>Motion · Projects — 26s, 1920×1080</figcaption>
+    <figcaption>Motion: Projects, 26s, 1920×1080</figcaption>
   </figure>
 </section>
 
@@ -159,18 +157,18 @@
 
 <section>
   <figure class="mo">
-    <video autoplay muted loop playsinline preload="metadata"
+    <video muted playsinline preload="metadata" controls
            poster="assets/motion/agents-poster.jpg"
            width="1920" height="1080" aria-label="The six mechanisms, as motion">
       <source src="assets/motion/agents.mp4" type="video/mp4">
     </video>
-    <figcaption>Motion · Agent integrations — 26s, 1920×1080</figcaption>
+    <figcaption>Motion: Agent integrations, 26s, 1920×1080</figcaption>
   </figure>
 </section>
 
 <section id="map">
   <h2>Connection map</h2>
-  <p class="meta">topology, not a log — every node is one of the six mechanisms above</p>
+  <p class="meta">topology of the actors and artifacts these mechanisms connect</p>
   <div class="map">
     <div class="lane">
       <div class="node pink">human</div><div class="link"></div>
@@ -193,7 +191,7 @@
       <div class="node">deployment</div><div class="lbl">nothing crosses alone</div>
     </div>
   </div>
-  <p class="cap">Every crossing is explicit: who may read, who may write, who must ask. A handoff carries its own context, so the receiving agent starts informed — not guessing. Work stops at the gate; nothing merges on its own. Every box is a mechanism, never a run.</p>
+  <p class="cap">Every crossing is explicit: who may read, who may write, who must ask. A handoff carries its own context, so the receiving agent starts with the full brief instead of guessing. Work stops at the gate, and a person makes the final call. Each box names an actor or artifact; the logs stay elsewhere.</p>
 </section>
 
 <section id="principles">
@@ -224,6 +222,6 @@
   </div>
 </footer>
 
-<script src="assets/app.js?v=aa5fc9a8e5" defer></script>
+<script src="assets/app.js?v=d6b582ca6b" defer></script>
 </body>
 </html>

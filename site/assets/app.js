@@ -1,4 +1,4 @@
-/* Stat strip. Every figure comes from /assets/stats.json or the card is absent —
+/* Stat strip. Every figure comes from /assets/stats.json or the card is absent:
    never zero, never a fallback. Freshness window comes from the file itself. */
 (function () {
   var stats = document.getElementById('stats');
@@ -58,9 +58,10 @@
   ];
 
   var fail = function (why) {
-    stats.innerHTML = '';
-    stamp.innerHTML = 'the latest numbers, read from the machine that serves this page';
-    stats.innerHTML = '';
+    stats.innerHTML = '<p class="state">Host figures could not be read: ' + esc(why) +
+      '. Reload the page to try again.</p>';
+    stamp.innerHTML = 'Snapshot unavailable. Check that <b>assets/stats.json</b> is generated on the host.';
+    stats.setAttribute('aria-busy', 'false');
     return;
   };
 
@@ -75,13 +76,22 @@
 
       var maxAge = num(s.max_age_hours) || DEFAULT_MAX_AGE_H;
       var stale = Date.now() - gen.getTime() > maxAge * 3600e3;
+      var ageMinutes = Math.max(0, Math.floor((Date.now() - gen.getTime()) / 60000));
+      var age = ageMinutes < 60 ? ageMinutes + ' min' :
+        ageMinutes < 1440 ? Math.floor(ageMinutes / 60) + ' h' :
+        Math.floor(ageMinutes / 1440) + ' d';
 
       var iso = gen.toISOString();
       var shown = iso.slice(0, 16).replace('T', ' ') + ' UTC';
-      stamp.innerHTML = 'read from the machine that serves this page at <b><time datetime="' + esc(iso) + '">' + esc(shown) + '</time></b>' +
-        (stale ? ' · older than ' + maxAge + ' hours, figures withheld' : '');
+      stamp.innerHTML = 'Snapshot generated on the host at <b><time datetime="' + esc(iso) + '">' + esc(shown) + '</time></b>, ' + age + ' old.' +
+        (stale ? ' Older than ' + maxAge + ' hours; figures withheld.' : '');
 
-      if (stale) { stats.innerHTML = ''; return; }
+      if (stale) {
+        stats.innerHTML = '<p class="state">Figures withheld: this snapshot is older than ' + maxAge +
+          ' hours. Run <b>scripts/collect-stats.sh</b> on the host.</p>';
+        stats.setAttribute('aria-busy', 'false');
+        return;
+      }
 
       var html = '';
       CARDS.forEach(function (c) {
@@ -93,27 +103,33 @@
         html += '<div class="st ' + c.tone + '"><div class="k">' + esc(c.label) +
           '</div><div class="v">' + esc(v) + '</div><div class="u">' + esc(u) + '</div></div>';
       });
-      stats.innerHTML = html;
+      stats.innerHTML = html || '<p class="state">No sourced figures are in this snapshot.</p>';
+      stats.setAttribute('aria-busy', 'false');
     })
     .catch(function (e) {
-      fail('could not be read (' + e.message + ')');
+      fail(e.message);
     });
 })();
 
-/* Autoplay nudge. A strict autoplay policy, or iOS low-power mode, can leave a
-   muted looping teaser parked on its poster. Start it, and retry once on the
-   first real interaction. No controls, no second script. */
+/* Motion. Controls are always available; reduced motion keeps the poster until
+   the visitor presses play, and never loops. */
 (function () {
-  var videos = document.querySelectorAll('video[autoplay]');
-  var kick = function () {
+  var videos = document.querySelectorAll('video');
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  var sync = function () {
     Array.prototype.forEach.call(videos, function (v) {
-      if (!v.paused) return;
+      if (reduced.matches) {
+        v.pause();
+        v.loop = false;
+        return;
+      }
+      v.loop = true;
       var started = v.play();
       if (started && started.catch) started.catch(function () {});
     });
   };
-  kick();
-  ['pointerdown', 'keydown', 'touchstart'].forEach(function (ev) {
-    window.addEventListener(ev, kick, { once: true, passive: true });
-  });
+
+  sync();
+  if (reduced.addEventListener) reduced.addEventListener('change', sync);
 })();
