@@ -11,7 +11,7 @@ import {
 } from 'remotion';
 import {PROJECTS, MECHANISMS} from './data';
 
-/* ---------------- tokens: antares geometry, cream canvas ---------------- */
+/* tokens: antares geometry, cream canvas */
 const C = {
   canvas: '#f4f1e8',
   rail: '#e9e4d4',
@@ -37,7 +37,7 @@ const GRAIN = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'
 const MONO = `'JetBrains Mono', ui-monospace, monospace`;
 const SANS = `'Space Grotesk', system-ui, sans-serif`;
 
-/* ---------------- fonts: bundled woff2, loaded before the first frame ----
+/* fonts: bundled woff2, loaded before the first frame.
    Space Grotesk is not installed on this host; without this it silently
    renders DejaVu and every rounded card looks wrong. */
 export const useFonts = () => {
@@ -53,7 +53,7 @@ export const useFonts = () => {
   }, [handle]);
 };
 
-/* ---------------- frame ---------------- */
+/* frame */
 const Header: React.FC<{left: string; right: string}> = ({left, right}) => (
   <div
     style={{
@@ -110,7 +110,7 @@ export const Frame: React.FC<{
   </AbsoluteFill>
 );
 
-/* ---------------- motion helpers ---------------- */
+/* motion helpers */
 const useIn = (start = 0, dur = 16) => {
   const f = useCurrentFrame();
   return interpolate(f, [start, start + dur], [0, 1], {
@@ -124,7 +124,7 @@ const rise = (p: number, px = 42) => ({
   transform: `translateY(${(1 - p) * px}px)`,
 });
 
-/* ---------------- scenes ---------------- */
+/* scenes */
 export const OpenScene: React.FC<{
   eyebrow: string;
   line1: string;

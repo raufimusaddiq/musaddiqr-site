@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# collect-stats.sh — produces site/assets/stats.json, the only source of numbers
+# collect-stats.sh: produces site/assets/stats.json, the only source of numbers
 # on the page. No figure here is typed by hand: each one is read from a command
 # on the host. A partial read fails loudly and writes nothing.
 #
@@ -33,7 +33,7 @@ command -v docker >/dev/null || die "docker not found"
 command -v curl   >/dev/null || die "curl not found"
 command -v python3 >/dev/null || die "python3 not found (used to validate the JSON)"
 
-[ -n "$BASELINE" ] || die "BASELINE is unset — the hostname figure cannot be sourced without it"
+[ -n "$BASELINE" ] || die "BASELINE is unset: the hostname figure cannot be sourced without it"
 [ -r "$BASELINE" ] || die "baseline file is not readable: $BASELINE"
 
 # The baseline names private hosts. It must never sit inside this repository.
@@ -49,12 +49,12 @@ if ! docker network inspect "$NETWORK" >/dev/null 2>&1; then
 fi
 
 ids="$(docker ps --filter "network=$NETWORK" --format '{{.ID}}')" \
-  || die "docker ps failed — refusing to write a partial file"
+  || die "docker ps failed: refusing to write a partial file"
 services="$(printf '%s' "$ids" | grep -c . || true)"
 case "$services" in
   ''|*[!0-9]*) die "service count did not parse: '$services'" ;;
 esac
-[ "$services" -gt 0 ] || die "no running containers seen on $NETWORK — that is not a measurement, it is a broken read"
+[ "$services" -gt 0 ] || die "no running containers seen on $NETWORK: that is not a measurement, it is a broken read"
 
 # ---- host uptime ----------------------------------------------------------
 [ -r /proc/uptime ] || die "/proc/uptime is not readable"
@@ -90,7 +90,7 @@ while IFS=' ' read -r host want extra || [ -n "${host:-}" ]; do
 done < "$BASELINE"
 
 [ "$total" -gt 0 ] || die "baseline file yielded no hostnames"
-[ "$transport_fail" -lt "$total" ] || die "no baseline host answered at all — the network read is broken"
+[ "$transport_fail" -lt "$total" ] || die "no baseline host answered at all: the network read is broken"
 
 # ---- write atomically -----------------------------------------------------
 out_dir="$(dirname "$OUT")"
