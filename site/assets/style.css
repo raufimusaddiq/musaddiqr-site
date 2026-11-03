@@ -27,7 +27,7 @@
 html{-webkit-text-size-adjust:100%}
 body{background:var(--canvas);color:var(--ink);
      font-family:'Space Grotesk',system-ui,sans-serif;
-     font-weight:400;-webkit-font-smoothing:antialiased}
+     font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 /* grain, as in the mockup */
 body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;z-index:9;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
@@ -82,7 +82,8 @@ nav .links a:hover{border-color:var(--ink)}
 .stmt{font-size:clamp(34px,5.45vw,78px);font-weight:700;letter-spacing:-.04em;
       line-height:1.04;margin:clamp(32px,4vw,50px) 0 0;max-width:1200px}
 .stmt .hl{display:inline-block;background:var(--pink);border:2px solid var(--ink);
-          border-radius:var(--r-md);padding:0 16px 6px;box-shadow:4px 4px 0 var(--ink)}
+          border-radius:var(--r-md);padding:0 16px 6px;box-shadow:4px 4px 0 var(--ink);
+          max-width:100%;box-sizing:border-box}
 .lede{font-family:var(--mono);font-size:clamp(13.5px,1.05vw,15px);line-height:1.62;
       color:var(--ink-2);margin-top:26px;max-width:760px}
 .status{font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;color:var(--ink);
@@ -206,15 +207,40 @@ footer a:hover{text-decoration:underline}
   .link::after{right:auto;left:-5px;top:auto;bottom:-1px;
                border-top:10px solid var(--ink);border-left:6px solid transparent;
                border-right:6px solid transparent;border-bottom:0}
-  .lbl{padding:4px 0 10px 44px}
+  .lbl{padding:4px 0 10px 44px;white-space:normal}
   .node{box-shadow:var(--hard-sm)}
+  .st{box-shadow:var(--hard-sm)}
 }
 @media (max-width:560px){
   .mech{grid-template-columns:minmax(0,1fr);row-gap:10px}
   .mech .no{grid-row:auto}
   nav .wrap{gap:10px}
   nav .links a{padding:8px 10px}
+
+  /* phone: tighter padding, cards stack, nothing sticks out */
+  :root{--pad:16px;--hard:4px 4px 0 var(--ink);--hard-sm:3px 3px 0 var(--ink)}
+  .hero{padding-top:20px}
+  .stats{grid-template-columns:minmax(0,1fr);gap:14px}
+  .st{padding:16px 18px 15px}
+  .st .v{font-size:44px;margin:10px 0 4px}
+  .st .u{font-size:10.5px}
+  .stmt{font-size:clamp(30px,8.6vw,40px);letter-spacing:-.03em;margin-top:26px}
+  .stmt .hl{padding:0 10px 4px;box-shadow:3px 3px 0 var(--ink)}
+  .lede{margin-top:20px}
+  .proj{padding:15px 16px;margin-bottom:10px}
+  .proj .pm{gap:8px}
+  .mech{padding:16px}
+  .mech .prev{font-size:11px}
+  .prin{grid-template-columns:minmax(0,1fr);gap:10px}
+  .prin div{padding:15px 16px}
+  .set span{font-size:10.5px;padding:8px 14px}
+  .node{font-size:10px;padding:9px 14px;white-space:normal;text-align:center}
+  .cap{font-size:11.5px;line-height:1.7}
+  figure.mo figcaption{font-size:10px;letter-spacing:.1em}
+  .stamp{font-size:11px}
+  footer .wrap{flex-direction:column;gap:6px}
 }
 @media (prefers-reduced-motion:reduce){
   *{scroll-behavior:auto}
+  body::after{display:none}
 }

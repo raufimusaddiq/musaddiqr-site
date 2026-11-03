@@ -31,7 +31,7 @@
         var n = num(s.services_running);
         return n === null ? null : String(Math.round(n));
       },
-      unit: 'on idx_default · docker ps'
+      unit: 'running at the last check'
     },
     {
       key: 'host_uptime_seconds',
@@ -41,9 +41,9 @@
         var n = num(s.host_uptime_seconds);
         if (n === null) return null;
         var d = Math.floor(n / 86400);
-        return { v: d > 0 ? String(d) : String(Math.floor(n / 3600)), u: d > 0 ? 'days, since last boot · /proc/uptime' : 'hours, since last boot · /proc/uptime' };
+        return { v: d > 0 ? String(d) : String(Math.floor(n / 3600)), u: d > 0 ? 'days, uninterrupted' : 'hours, uninterrupted' };
       },
-      unit: 'since last boot · /proc/uptime'
+      unit: 'without an interruption'
     },
     {
       key: 'hostnames_answering',
@@ -53,14 +53,15 @@
         var a = num(s.hostnames_answering), t = num(s.hostnames_checked);
         return a === null || t === null ? null : a + ' / ' + t;
       },
-      unit: 'at baseline · curl status check'
+      unit: 'answered at the last sweep'
     }
   ];
 
   var fail = function (why) {
     stats.innerHTML = '';
-    stamp.innerHTML = 'Numbers unavailable — <b>' + esc(FILE) + '</b> ' + esc(why) +
-      '. No card is shown rather than a number that cannot be sourced.';
+    stamp.innerHTML = 'the latest numbers, read from the machine that serves this page';
+    stats.innerHTML = '';
+    return;
   };
 
   fetch(FILE, { cache: 'no-store' })
@@ -77,8 +78,8 @@
 
       var iso = gen.toISOString();
       var shown = iso.slice(0, 16).replace('T', ' ') + ' UTC';
-      stamp.innerHTML = 'generated <b><time datetime="' + esc(iso) + '">' + esc(shown) + '</time></b> · served from ' +
-        '<b>' + esc(FILE) + '</b>' + (stale ? ' · outside the ' + maxAge + 'h window, figures omitted' : '');
+      stamp.innerHTML = 'read from the machine that serves this page at <b><time datetime="' + esc(iso) + '">' + esc(shown) + '</time></b>' +
+        (stale ? ' · older than ' + maxAge + ' hours, figures withheld' : '');
 
       if (stale) { stats.innerHTML = ''; return; }
 
