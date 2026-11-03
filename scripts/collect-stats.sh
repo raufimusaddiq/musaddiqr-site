@@ -80,7 +80,7 @@ while IFS=' ' read -r host want extra || [ -n "${host:-}" ]; do
   esac
 
   total=$((total + 1))
-  got="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 --head "https://$host" 2>/dev/null || true)"
+  got="$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "https://$host" 2>/dev/null || true)"
   if [ -z "$got" ] || [ "$got" = "000" ]; then
     transport_fail=$((transport_fail + 1))
     printf 'collect-stats: no answer from a baseline host\n' >&2
