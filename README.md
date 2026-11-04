@@ -13,8 +13,10 @@ Served by its own `caddy:2-alpine` container running `file_server`.
 site/index.html              the whole page
 site/assets/style.css        the whole stylesheet
 site/assets/app.js          the only script: fetches /assets/stats.json
-site/assets/stats.json       snapshot refreshed on the host by collect-stats.sh
-site/assets/fonts/*.woff2    Space Grotesk (300–700) + JetBrains Mono (400–700)
+site/assets/stats.json       generated on the host by collect-stats.sh; git-ignored
+site/assets/favicon.svg, favicon-32.png, apple-touch-icon.png, site/favicon.ico   tab icons
+site/assets/og.png           1200x630 share image (Open Graph and Twitter card)
+site/assets/fonts/*.woff2    Space Grotesk (300–700), the only typeface
 scripts/collect-stats.sh     the generator for stats.json
 compose.yml                  the one service, on idx_default
 motion/src/                  two Remotion compositions

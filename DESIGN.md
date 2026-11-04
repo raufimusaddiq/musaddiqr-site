@@ -24,13 +24,12 @@ fills; do not soften it, round it off, or replace it with a generic dashboard.
 
 ## Type
 
-- **Space Grotesk** for the statement and body: rounded, geometric, friendly at large sizes.
-- **JetBrains Mono** for labels, numbers and metadata: it reads as tooling and makes the small facts feel measured.
-- Uppercase mono labels are part of the identity. Keep tracking deliberate; do not add more sizes below the 14px floor.
+- **Space Grotesk** is the only typeface: statement, body, labels, numbers and metadata. The monospace was dropped because it read as a terminal log against the headline.
+- Uppercase tracked labels are part of the identity. Keep tracking deliberate; do not add more sizes below the 14px floor.
 
 ## Layout and motion
 
-- Desktop may lead with the host snapshot because the numbers are the proof. At 560px and below the statement and lede come first, followed by the snapshot.
+- One order at every width: role, statement, lede, actions, then the host snapshot as proof. The markup order is the reading order; no CSS `order` is used. The snapshot says so itself and never leads.
 - Cards use 8/14/20px radii and 2px ink borders. The hard shadow is the elevation marker.
 - Videos are the only large motion. They have controls; under `prefers-reduced-motion` they show the poster and do not loop until the visitor presses play.
 - The page holds at 320, 390 and 1440 with no horizontal overflow. Tap targets are at least 44px and meaningful text is at least 14px.

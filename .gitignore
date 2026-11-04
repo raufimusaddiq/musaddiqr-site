@@ -3,3 +3,5 @@ motion/node_modules/
 site/assets/motion/*
 !site/assets/motion/.gitkeep
 .bak-site-20261104/
+# generated on the host by scripts/collect-stats.sh (hourly cron); never committed
+site/assets/stats.json
