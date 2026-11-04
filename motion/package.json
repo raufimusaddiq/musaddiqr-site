@@ -5,12 +5,16 @@
   "description": "Two motion pieces (projects ~29.5s, agents ~28s) for musaddiqr.com, rendered with Remotion.",
   "scripts": {
     "studio": "remotion studio",
-    "render": "remotion render projects out/projects.mp4 --codec=h264 --crf=23 --muted && remotion render agents out/agents.mp4 --codec=h264 --crf=23 --muted && remotion still projects out/projects-poster.jpg --frame=179 && remotion still agents out/agents-poster.jpg --frame=500"
+    "render": "remotion render projects out/projects.mp4 --codec=h264 --crf=23 --muted && remotion render agents3d out/agents.mp4 --codec=h264 --crf=23 --muted --gl=angle && remotion still projects out/projects-poster.jpg --frame=179 && remotion still agents3d out/agents-poster.jpg --frame=584"
   },
   "dependencies": {
     "@remotion/cli": "4.0.409",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "remotion": "4.0.409"
+    "remotion": "4.0.409",
+    "@remotion/three": "4.0.409",
+    "three": "0.178.0",
+    "@react-three/fiber": "9.3.0",
+    "@types/three": "0.178.0"
   }
 }
