@@ -90,6 +90,8 @@ nav .links a:hover{border-color:var(--ink)}
 .btn.primary{background:var(--pink)}
 .btn:hover{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
 
+#contact .cta{margin-top:0}
+
 section{padding:clamp(40px,4.2vw,56px) var(--pad) 0}
 h2{font-family:var(--label);font-size:14px;letter-spacing:.16em;text-transform:uppercase;
    font-weight:500;margin-bottom:16px}
