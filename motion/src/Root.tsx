@@ -71,17 +71,21 @@ const AgentsVideo: React.FC = () => {
   );
 };
 
+/* the 3D piece runs slower: ~52.7s */
+const OPEN3 = 120;
+const CLOSE3 = 120;
+
 const Agents3DVideo: React.FC = () => {
   useFonts();
   return (
     <Series>
-      <Series.Sequence durationInFrames={OPEN}>
+      <Series.Sequence durationInFrames={OPEN3}>
         <OpenScene eyebrow="agent infrastructure" line1="Six mechanisms." line2="Each one says what it" highlight="prevents" sub="how work moves, and what stops it" />
       </Series.Sequence>
       <Series.Sequence durationInFrames={FLOW3D_FRAMES}>
         <Flow3DScene />
       </Series.Sequence>
-      <Series.Sequence durationInFrames={CLOSE}>
+      <Series.Sequence durationInFrames={CLOSE3}>
         <CloseScene title="I build what holds them." sub="musaddiqr.com · agents do the work" accent="#ffd42e" />
       </Series.Sequence>
     </Series>
@@ -106,6 +110,6 @@ export const RemotionRoot: React.FC = () => (
       width={1920}
       height={1080}
     />
-    <Composition id="agents3d" component={Agents3DVideo} durationInFrames={OPEN + FLOW3D_FRAMES + CLOSE} fps={FPS} width={1920} height={1080} />
+    <Composition id="agents3d" component={Agents3DVideo} durationInFrames={OPEN3 + FLOW3D_FRAMES + CLOSE3} fps={FPS} width={1920} height={1080} />
   </>
 );
