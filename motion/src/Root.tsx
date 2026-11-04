@@ -1,17 +1,18 @@
 import React from 'react';
 import {Composition, Series} from 'remotion';
-import {AgentScene, CloseScene, OpenScene, ProjectScene, useFonts} from './scenes';
-import {MECHANISMS, PROJECTS} from './data';
+import {AgentScene, CloseScene, OpenScene, useFonts} from './scenes';
+import {UiProjectScene} from './uiscenes';
+import {FlowScene, FLOW_FRAMES} from './flow';
+import {PROJECTS} from './data';
 
 /* Scene durations in one list, at 30fps. 26.0s per piece. */
 const FPS = 30;
 const OPEN = 84; // 2.8s
-const PROJECT = 76; // 2.53s
-const MECHANISM = 102; // 3.4s
+const PROJECT = 102; // 3.4s
 const CLOSE = 88; // 2.93s
 
-const PROJECTS_FRAMES = OPEN + PROJECTS.length * PROJECT + CLOSE; // 780 = 26s
-const AGENTS_FRAMES = OPEN + MECHANISMS.length * MECHANISM + CLOSE; // 780 = 26s
+const PROJECTS_FRAMES = OPEN + PROJECTS.length * PROJECT + CLOSE; // 886 = 29.5s
+const AGENTS_FRAMES = OPEN + FLOW_FRAMES + CLOSE; // 842 = 28s
 
 const ProjectsVideo: React.FC = () => {
   useFonts();
@@ -23,12 +24,12 @@ const ProjectsVideo: React.FC = () => {
           line1="Agents do the work."
           line2="I build what"
           highlight="holds them"
-          sub="eight public repositories · newest last commit first"
+          sub="seven public repositories"
         />
       </Series.Sequence>
       {PROJECTS.map((project, i) => (
         <Series.Sequence key={project.name} durationInFrames={PROJECT}>
-          <ProjectScene index={i} total={PROJECTS.length} />
+          <UiProjectScene index={i} name={project.name} say={project.say} lang={project.lang} url={project.url} />
         </Series.Sequence>
       ))}
       <Series.Sequence durationInFrames={CLOSE}>
@@ -48,18 +49,16 @@ const AgentsVideo: React.FC = () => {
     <Series>
       <Series.Sequence durationInFrames={OPEN}>
         <OpenScene
-          eyebrow="agent integrations"
+          eyebrow="agent infrastructure"
           line1="Six mechanisms."
           line2="Each one says what it"
           highlight="prevents"
-          sub="no log · no timeline · no timestamps"
+          sub="how work moves, and what stops it"
         />
       </Series.Sequence>
-      {MECHANISMS.map((mechanism, i) => (
-        <Series.Sequence key={mechanism.title} durationInFrames={MECHANISM}>
-          <AgentScene index={i} total={MECHANISMS.length} />
-        </Series.Sequence>
-      ))}
+      <Series.Sequence durationInFrames={FLOW_FRAMES}>
+        <FlowScene />
+      </Series.Sequence>
       <Series.Sequence durationInFrames={CLOSE}>
         <CloseScene
           title="I build what holds them."

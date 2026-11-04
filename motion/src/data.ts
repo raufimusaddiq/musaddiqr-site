@@ -2,20 +2,19 @@
    measurement, and nothing here is an event in time. */
 
 export const PROJECTS = [
-  {name: 'richmod', say: 'Household finance dashboard. Go + React + Postgres, containerised, deployed through CI.', lang: 'Go', year: '2026', url: 'github.com/raufimusaddiq/richmod'},
-  {name: 'literouter', say: 'A lighter router over many LLM providers, forked from 9router and reworked.', lang: 'JavaScript', year: '2026', url: 'github.com/raufimusaddiq/literouter'},
-  {name: 'routeweft', say: 'A routing control plane, in parity tracking against the router it replaces.', lang: 'Go', year: '2026', url: 'github.com/raufimusaddiq/routeweft'},
-  {name: 'antares', say: 'Google-authenticated chat UI for a deployed agent, per-user private profile binding.', lang: 'Go', year: '2026', url: 'github.com/raufimusaddiq/antares'},
-  {name: 'sorot', say: 'Long video to vertical 9:16 clips with word-timed captions, for Indonesian short-form.', lang: 'TypeScript', year: '2026', url: 'github.com/raufimusaddiq/sorot'},
-  {name: 'agenticform', say: 'Control plane for orchestrating coding agents across projects, tasks and reviews.', lang: 'Java', year: '2026', url: 'github.com/raufimusaddiq/agenticform'},
-  {name: 'agents', say: 'The agent UI and its terminal-multiplexer wrapper.', lang: 'Python', year: '2026', url: 'github.com/raufimusaddiq/agents'},
-  {name: 'raufimusaddiq', say: 'The GitHub profile itself, as a small card.', lang: '', year: '2026', url: 'github.com/raufimusaddiq'},
+  {name: 'richmod', say: 'Self-hosted household finance system. Emails, Telegram messages and documents become an auditable ledger; the model interprets evidence, deterministic code owns the financial state.', lang: 'Go', vis: 'Public', url: 'github.com/raufimusaddiq/richmod'},
+  {name: 'agenticform', say: 'Control plane for coding agents across projects, tasks and reviews, with approvals, policy gates and isolated workspaces.', lang: 'Java', vis: 'Public', url: 'github.com/raufimusaddiq/agenticform'},
+  {name: 'literouter', say: 'A lighter router over many LLM providers, forked from 9router and reworked.', lang: 'JavaScript', vis: 'Public', url: 'github.com/raufimusaddiq/literouter'},
+  {name: 'routeweft', say: 'Routing control plane, tracked for behavioural parity against the router it replaces.', lang: 'Go', vis: 'Public', url: 'github.com/raufimusaddiq/routeweft'},
+  {name: 'antares', say: 'Google-authenticated chat UI for a deployed agent, with a private profile bound to each user.', lang: 'Go', vis: 'Public', url: 'github.com/raufimusaddiq/antares'},
+  {name: 'sorot', say: 'Turns long videos into vertical 9:16 clips with word-timed captions, built for Indonesian short-form.', lang: 'TypeScript', vis: 'Public', url: 'github.com/raufimusaddiq/sorot'},
+  {name: 'agents', say: 'Agent UI with a wrapper around the terminal multiplexer the agents run in.', lang: 'Python', vis: 'Public', url: 'github.com/raufimusaddiq/agents'},
 ];
 
 export const MECHANISMS = [
   {
     title: 'Agent-to-agent handoff',
-    say: 'One agent passes a piece of work to another through a call that carries its own context and its own chat, so the receiving agent starts with the whole brief and answers in the same thread.',
+    say: 'One agent passes work to another through a call that carries its own context and chat. The receiving agent starts with the whole brief and replies in the same thread, not in a blank session.',
     prevents: 'work arriving as a bare sentence with the reasoning stripped off.',
   },
   {
@@ -29,18 +28,18 @@ export const MECHANISMS = [
     prevents: 'a silent failure being found by a person weeks later.',
   },
   {
-    title: 'Delegation to a coding agent in its own terminal pane',
-    say: 'Code is written by a coding agent with its own session and its own working tree, briefed by a lead that routes and verifies.',
+    title: 'Delegation to a coding agent',
+    say: 'Code is written by a coding agent in its own session and working tree. A lead agent briefs it, routes the work and verifies the result.',
     prevents: 'two agents editing one file, and a claim of “done” going unchecked.',
   },
   {
     title: 'The review gate',
-    say: 'Every pull request is reviewed by a reviewer agent on the exact commit, findings go back to the authoring agent, fixes are batched into one commit per round, and nothing merges until the gate is satisfied.',
+    say: 'A reviewer agent reviews every pull request on the exact commit. Findings go back to the authoring agent, fixes land as one commit per round, and nothing merges until the gate passes.',
     prevents: 'an unreviewed change reaching a deployed service.',
   },
   {
-    title: 'One owner per thing',
-    say: 'Each piece of work is assigned to exactly one agent and one branch.',
+    title: 'One owner per task',
+    say: 'Each task is assigned to exactly one agent and one branch.',
     prevents: 'a merge conflict discovered at merge time.',
   },
 ];

@@ -34,7 +34,7 @@ const inkOn = (c: string) => (c === C.cobalt ? '#ffffff' : C.ink);
 
 const GRAIN = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")`;
 
-const MONO = `'JetBrains Mono', ui-monospace, monospace`;
+const MONO = `'Space Grotesk', system-ui, sans-serif`;
 const SANS = `'Space Grotesk', system-ui, sans-serif`;
 
 /* fonts: bundled woff2, loaded before the first frame.
@@ -45,7 +45,6 @@ export const useFonts = () => {
   useEffect(() => {
     const faces = [
       new FontFace('Space Grotesk', `url(${staticFile('fonts/space-grotesk-latin.woff2')})`, {weight: '300 700'}),
-      new FontFace('JetBrains Mono', `url(${staticFile('fonts/jetbrains-mono-latin.woff2')})`, {weight: '400 700'}),
     ];
     Promise.all(faces.map((face) => face.load().then((loaded) => document.fonts.add(loaded))))
       .then(() => continueRender(handle))
@@ -197,7 +196,7 @@ export const ProjectScene: React.FC<{index: number; total: number}> = ({index, t
     <Frame
       left="projects"
       right={`${String(index + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`}
-      footer="eight public repositories"
+      footer="seven public repositories"
     >
       <div style={{position: 'absolute', inset: '140px 120px 110px', display: 'flex', alignItems: 'center'}}>
       <div
@@ -276,7 +275,7 @@ export const ProjectScene: React.FC<{index: number; total: number}> = ({index, t
               {p.lang}
             </span>
           ) : null}
-          <span style={{fontSize: 22, color: C.ink2, letterSpacing: '0.08em'}}>{p.year}</span>
+          <span style={{fontSize: 22, color: C.ink2, letterSpacing: '0.08em'}}>{p.vis}</span>
           <span style={{flex: 1, height: 2, background: C.rail}} />
           <span style={{...rise(t3), fontSize: 22, color: C.ink2, letterSpacing: '0.02em'}}>{p.url}</span>
         </div>
