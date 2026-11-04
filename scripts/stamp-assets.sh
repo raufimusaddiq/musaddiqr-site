@@ -2,7 +2,8 @@
 # Re-stamp the two asset references in site/index.html with a short content hash.
 # Cloudflare caches /assets/* for 4h while the HTML is dynamic, so the ?v= in the
 # HTML is the only thing that makes an edited stylesheet or script reach a reader
-# immediately. Run after any change to site/assets/style.css or site/assets/app.js.
+# immediately. Run after any change to site/assets/style.css, site/assets/app.js
+# or a re-render in motion/out.
 #
 # Usage: scripts/stamp-assets.sh [repo-root]
 #   With no argument the repo root is resolved from this script's own location,
@@ -30,3 +31,14 @@ sed -i \
   "$index"
 
 printf 'style.css?v=%s\napp.js?v=%s\n' "$css" "$js"
+
+# The videos and posters live in motion/out (mounted at assets/motion/). Their file
+# names never change between renders, so they get the same ?v= treatment.
+for f in projects.mp4 agents.mp4 projects-poster.jpg agents-poster.jpg; do
+  src="$root/motion/out/$f"
+  [ -f "$src" ] || continue
+  h=$(sha256sum "$src" | cut -c1-10)
+  esc=$(printf '%s' "$f" | sed 's/\./\\./g')
+  sed -i "s|assets/motion/$esc\(\?v=[0-9a-f]*\)\{0,1\}|assets/motion/$f?v=$h|g" "$index"
+  printf '%s?v=%s\n' "$f" "$h"
+done
