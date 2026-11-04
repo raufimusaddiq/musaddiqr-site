@@ -1,9 +1,9 @@
 import React, {useEffect, useLayoutEffect, useMemo, useState} from 'react';
-import {continueRender, delayRender, Easing, interpolate, useCurrentFrame} from 'remotion';
+import {continueRender, delayRender, Easing, interpolate} from 'remotion';
 import {ThreeCanvas} from '@remotion/three';
 import {useThree} from '@react-three/fiber';
 import * as THREE from 'three';
-import {Frame} from './scenes';
+import {Frame, useT} from './scenes';
 import {MECHANISMS} from './data';
 
 /* The agent-infrastructure piece in 3D (three.js via @remotion/three).
@@ -41,6 +41,10 @@ const wy = (y: number) => -(y - CY) / 100;
 
 const DEPTH = 0.26; // slab height above the board
 const EDGE_Z = 0.05; // edges lie on the board
+/* layer heights above the board surface (z = 0); kept well apart so nothing z-fights */
+const Z_DOTS = 0.004;
+const Z_MISSION = 0.012;
+const Z_SHADOW = 0.02;
 const GAP = 6; // px between an arrow tip / edge start and the node outline
 
 type NodeDef = {cx: number; cy: number; label: string; fill: string; ink?: string; at: number};
@@ -212,7 +216,7 @@ const Tag: React.FC<{
   if (opacity <= 0.01) return null;
   const dx = align === 'left' ? w / 2 : align === 'right' ? -w / 2 : 0;
   return (
-    <mesh position={[pos[0] + dx, pos[1], pos[2]]}>
+    <mesh position={[pos[0] + dx, pos[1], pos[2]]} renderOrder={5}>
       <planeGeometry args={[w, h]} />
       <meshBasicMaterial map={tex} transparent opacity={opacity} depthWrite={false} toneMapped={false} />
     </mesh>
@@ -258,7 +262,7 @@ const Board: React.FC = () => {
   );
   const c: [number, number] = [wx((BX0 + BX1) / 2), wy((BY0 + BY1) / 2)];
   return (
-    <group position={[c[0], c[1], -0.16]}>
+    <group position={[c[0], c[1], -0.165]}>
       <mesh geometry={geo.shadow} position={[0.14, -0.14, -0.02]}>
         <meshBasicMaterial color={INK} />
       </mesh>
@@ -268,7 +272,7 @@ const Board: React.FC = () => {
       <mesh geometry={geo.top} position={[0, 0, 0.005]}>
         <meshBasicMaterial color={BOARD} />
       </mesh>
-      <mesh position={[0, 0, 0.17]}>
+      <mesh position={[0, 0, 0.165 + Z_DOTS]} renderOrder={1}>
         <planeGeometry args={[w - 0.2, h - 0.2]} />
         <meshBasicMaterial map={dots} transparent depthWrite={false} toneMapped={false} />
       </mesh>
@@ -288,8 +292,8 @@ const Node3: React.FC<{n: NodeDef; f: number; pop?: number}> = ({n, f, pop = 0})
   const sh = 0.08 + lift * 0.08;
   return (
     <group position={[wx(n.cx), wy(n.cy), 0]}>
-      <mesh geometry={geo.shadow} position={[sh, -sh, 0.004]}>
-        <meshBasicMaterial color={INK} transparent opacity={Math.min(1, p * 1.5)} />
+      <mesh geometry={geo.shadow} position={[sh, -sh, Z_SHADOW]} renderOrder={3}>
+        <meshBasicMaterial color={INK} transparent opacity={Math.min(1, p * 1.5)} depthWrite={false} />
       </mesh>
       <group position={[0, 0, lift]}>
         <mesh geometry={geo.outline}>
@@ -414,9 +418,9 @@ const Packet3: React.FC<{p: (typeof PACKETS)[number]; f: number}> = ({p, f}) => 
   const sc = Math.max(0.001, fade);
   return (
     <group position={pos} scale={[sc, sc, sc]}>
-      <mesh position={[0.06, -0.06, -PR - 0.01]}>
+      <mesh position={[0.06, -0.06, -PR - 0.02 + Z_SHADOW]} renderOrder={3}>
         <circleGeometry args={[PR + 0.03, 32]} />
-        <meshBasicMaterial color={INK} />
+        <meshBasicMaterial color={INK} depthWrite={false} />
       </mesh>
       <mesh>
         <sphereGeometry args={[PR, 32, 24]} />
@@ -441,7 +445,7 @@ const Mission3: React.FC<{f: number}> = ({f}) => {
   const mission = pf(f, 252, 268);
   const out = 1 - pf(f, 336, 346);
   const done = [284, 304, 324].map((t) => f > t);
-  const w = (nw(N.coding.label) + 90) / 100;
+  const w = (nw(N.coding.label) + 110) / 100;
   const h = 2.5;
   const tex = useMemo(
     () =>
@@ -458,14 +462,14 @@ const Mission3: React.FC<{f: number}> = ({f}) => {
   const o = mission * out;
   const cy = wy(N.coding.cy) - 0.42;
   return (
-    <group position={[wx(N.coding.cx), cy, 0.012]}>
-      <mesh>
+    <group position={[wx(N.coding.cx), cy, Z_MISSION]}>
+      <mesh renderOrder={2}>
         <planeGeometry args={[w, h]} />
         <meshBasicMaterial map={tex} transparent opacity={o} depthWrite={false} toneMapped={false} />
       </mesh>
-      <Tag text="MISSION · ONE WORKTREE" pos={[0, h / 2, 0.01]} size={0.19} fill={BOARD} weight={600} ls={0.12} opacity={o} />
+      <Tag text="MISSION · ONE WORKTREE" pos={[0, h / 2, 0.012]} size={0.19} fill={BOARD} weight={600} ls={0.12} opacity={o} />
       {['T-1', 'T-2', 'T-3'].map((t, i) => (
-        <Tag key={t + done[i]} text={(done[i] ? '✔ ' : '') + t} pos={[(i - 1) * 0.74, -h / 2 + 0.36, 0.01]} size={0.19} fill={done[i] ? MINT : CANVAS} border opacity={o} />
+        <Tag key={t + done[i]} text={(done[i] ? '✔ ' : '') + t} pos={[(i - 1) * 0.98, -h / 2 + 0.36, 0.012]} size={0.19} fill={done[i] ? MINT : CANVAS} border opacity={o} />
       ))}
     </group>
   );
@@ -497,7 +501,7 @@ const useFontReady = () => {
 };
 
 export const Flow3DScene: React.FC = () => {
-  const f = useCurrentFrame() / SLOW; // beat frames
+  const f = useT() / SLOW; // beat frames
   const ready = useFontReady();
 
   const arrivals: Record<string, number> = {};
@@ -521,7 +525,7 @@ export const Flow3DScene: React.FC = () => {
   const approvalPress = f > 510 && f < 520 ? 0.4 : 0;
 
   const note = (x: number, y: number, text: string, o: number, align: 'center' | 'left' | 'right' = 'center') =>
-    o > 0.01 && text ? <Tag text={text} pos={[wx(x), wy(y), 0.015]} size={0.21} color={INK2} weight={500} opacity={o} align={align} /> : null;
+    o > 0.01 && text ? <Tag text={text} pos={[wx(x), wy(y), 0.03]} size={0.21} color={INK2} weight={500} opacity={o} align={align} /> : null;
 
   return (
     <Frame left="agent infrastructure" right="how work moves" footer="six mechanisms in use">
@@ -529,7 +533,7 @@ export const Flow3DScene: React.FC = () => {
         <ThreeCanvas
           width={1920}
           height={1080}
-          camera={{position: [0, 0, 26], fov: 23, near: 0.1, far: 100}}
+          camera={{position: [0, 0, 26], fov: 23, near: 8, far: 50}}
           gl={{toneMapping: THREE.NoToneMapping, antialias: true}}
           style={{position: 'absolute', left: 0, top: 0}}
         >

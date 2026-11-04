@@ -1,6 +1,6 @@
 import React from 'react';
-import {Easing, interpolate, useCurrentFrame} from 'remotion';
-import {Frame} from './scenes';
+import {Easing, interpolate} from 'remotion';
+import {Frame, useT} from './scenes';
 
 /* Recreated UIs for the projects video. Layout and palette follow each app's own
    screens; every name, number and message here is invented. Nothing is captured
@@ -40,7 +40,7 @@ const UiScene: React.FC<{
   title: string;
   children: (f: number) => React.ReactNode;
 }> = ({index, total, name, say, lang, url, title, children}) => {
-  const f = useCurrentFrame();
+  const f = useT();
   const a = pf(f, 0, 14);
   const b = pf(f, 6, 20);
   return (

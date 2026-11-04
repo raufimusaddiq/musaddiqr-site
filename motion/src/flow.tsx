@@ -1,6 +1,6 @@
 import React from 'react';
-import {Easing, interpolate, useCurrentFrame} from 'remotion';
-import {Frame} from './scenes';
+import {Easing, interpolate} from 'remotion';
+import {Frame, useT} from './scenes';
 import {MECHANISMS} from './data';
 
 /* The agent-infrastructure piece: one diagram, work travels through it.
@@ -146,7 +146,7 @@ const Pill: React.FC<{n: NodeDef; f: number; pop?: number}> = ({n, f, pop = 0}) 
 };
 
 export const FlowScene: React.FC = () => {
-  const f = useCurrentFrame();
+  const f = useT();
 
   /* which node just received a packet: pop for 10 frames after arrival */
   const arrivals: Record<string, number> = {};

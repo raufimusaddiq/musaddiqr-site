@@ -52,6 +52,14 @@ export const useFonts = () => {
   }, [handle]);
 };
 
+/* time in 30fps frames, whatever the composition's fps: every timing in these scenes
+   was authored at 30fps, so a 60fps render keeps the same speed with twice the frames */
+export const useT = () => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  return (frame * 30) / fps;
+};
+
 /* frame */
 const Header: React.FC<{left: string; right: string}> = ({left, right}) => (
   <div
@@ -111,7 +119,7 @@ export const Frame: React.FC<{
 
 /* motion helpers */
 const useIn = (start = 0, dur = 16) => {
-  const f = useCurrentFrame();
+  const f = useT();
   return interpolate(f, [start, start + dur], [0, 1], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
@@ -184,8 +192,8 @@ export const OpenScene: React.FC<{
 
 export const ProjectScene: React.FC<{index: number; total: number}> = ({index, total}) => {
   const p = PROJECTS[index];
-  const f = useCurrentFrame();
-  const {fps} = useVideoConfig();
+  const f = useT();
+  const fps = 30;
   const card = spring({frame: f - 4, fps, config: {damping: 200, mass: 0.7}});
   const t1 = useIn(10, 14);
   const t2 = useIn(18, 14);
@@ -287,8 +295,8 @@ export const ProjectScene: React.FC<{index: number; total: number}> = ({index, t
 
 export const AgentScene: React.FC<{index: number; total: number}> = ({index, total}) => {
   const m = MECHANISMS[index];
-  const f = useCurrentFrame();
-  const {fps} = useVideoConfig();
+  const f = useT();
+  const fps = 30;
   const card = spring({frame: f - 4, fps, config: {damping: 200, mass: 0.7}});
   const t1 = useIn(10, 14);
   const t2 = useIn(18, 14);
