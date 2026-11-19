@@ -9,7 +9,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from 'remotion';
-import {PROJECTS, MECHANISMS} from './data';
+import {PROJECTS, MECHANISMS, REPO_LINE} from './data';
 
 /* tokens: antares geometry, cream canvas */
 const C = {
@@ -138,31 +138,37 @@ export const OpenScene: React.FC<{
   line2: string;
   highlight: string;
   sub: string;
-}> = ({eyebrow, line1, line2, highlight, sub}) => {
+  /* the piece's running time, shown top right, e.g. "53s" */
+  length: string;
+  /* headline size in px; lower it when line2 plus the highlight would wrap */
+  size?: number;
+}> = ({eyebrow, line1, line2, highlight, sub, length, size = 116}) => {
   const a = useIn(0, 18);
   const b = useIn(10, 18);
   const c = useIn(22, 18);
+  const head = {...rise(b), fontSize: size, fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1.06};
   return (
-    <Frame left={eyebrow} right="26s" footer="agents do the work">
+    <Frame left={eyebrow} right={length} footer="agents do the work">
       <div style={{position: 'absolute', left: 120, right: 120, top: 300}}>
-        <div style={{...rise(b), fontSize: 116, fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1.06}}>
-          {line1}
-        </div>
-        <div style={{...rise(b), fontSize: 116, fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1.06}}>
+        <div style={head}>{line1}</div>
+        <div style={head}>
           {line2}{' '}
-          <span
-            style={{
-              display: 'inline-block',
-              background: C.pink,
-              border: `2px solid ${C.ink}`,
-              borderRadius: C.rMd,
-              padding: '0 22px 8px',
-              boxShadow: `6px 6px 0 ${C.ink}`,
-            }}
-          >
-            {highlight}
+          {/* the highlight and its full stop never break apart */}
+          <span style={{whiteSpace: 'nowrap'}}>
+            <span
+              style={{
+                display: 'inline-block',
+                background: C.pink,
+                border: `2px solid ${C.ink}`,
+                borderRadius: C.rMd,
+                padding: '0 22px 8px',
+                boxShadow: `6px 6px 0 ${C.ink}`,
+              }}
+            >
+              {highlight}
+            </span>
+            .
           </span>
-          .
         </div>
         <div
           style={{
@@ -204,7 +210,7 @@ export const ProjectScene: React.FC<{index: number; total: number}> = ({index, t
     <Frame
       left="projects"
       right={`${String(index + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`}
-      footer="seven public repositories"
+      footer={REPO_LINE}
     >
       <div style={{position: 'absolute', inset: '140px 120px 110px', display: 'flex', alignItems: 'center'}}>
       <div

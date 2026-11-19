@@ -1,6 +1,7 @@
 import React from 'react';
 import {Easing, interpolate} from 'remotion';
 import {Frame, useT} from './scenes';
+import {REPO_LINE} from './data';
 
 /* Recreated UIs for the projects video. Layout and palette follow each app's own
    screens; every name, number and message here is invented. Nothing is captured
@@ -47,7 +48,7 @@ const UiScene: React.FC<{
     <Frame
       left="projects"
       right={`${String(index + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`}
-      footer="seven public repositories"
+      footer={REPO_LINE}
     >
       <div style={{position: 'absolute', left: 120, top: 150, width: 400, opacity: b, transform: `translateY(${(1 - b) * 30}px)`}}>
         <div
@@ -539,139 +540,7 @@ const LiterouterApp = (f: number) => {
   );
 };
 
-/* ---------- 4. routeweft (from ui/src/style.css, main.tsx, Combos.tsx: black rail, pink slab, hard shadows) ---------- */
-
-const RW = {paper: '#f7f6f0', ink: '#111111', pink: '#ff5fa2', yellow: '#ffd60a', surface: '#ffffff', surface2: '#ecebe3', sub: '#d4d2c8', muted: '#45443f', ok: '#0b6b2e', warn: '#7a5200', rail: '#111111', railText: '#f7f6f0', railMuted: '#c9c7bd'};
-
-const RouteweftApp = (f: number) => {
-  const groups: [string, string[]][] = [
-    ['Operate', ['Overview', 'Endpoint & Key', 'Providers']],
-    ['Route', ['Combo & Capability Adapter', 'System One']],
-    ['Observe', ['Usage', 'Quota Tracker', 'Token Saver']],
-    ['System', ['Console Log', 'Settings']],
-  ];
-  const typedModel = typed('openai/gpt-4o-mini', f, 8, 1.4);
-  const added = f >= 34;
-  const pressAdd = f > 30 && f < 34;
-  const saved = f >= 74;
-  const pressSave = f > 68 && f < 74;
-  const members: [string, string][] = [
-    ['anthropic/claude-haiku', 'Selected'],
-    ['google/gemini-flash', 'Selected'],
-    ['groq/llama-3.3-70b', 'Deselected'],
-  ];
-  const all: [string, string][] = added ? [...members, ['openai/gpt-4o-mini', 'Selected']] : members;
-  const pillBtn = (t: string, extra: React.CSSProperties = {}) => (
-    <span style={{border: `2px solid ${RW.ink}`, borderRadius: 999, padding: '3px 12px', fontSize: 12, fontWeight: 600, background: RW.surface, ...extra}}>{t}</span>
-  );
-  const tag = (t: string, bg = RW.surface, rot = -3) => (
-    <span style={{fontFamily: MONO, fontSize: 10, fontWeight: 700, border: `2px solid ${RW.ink}`, borderRadius: 999, padding: '1px 8px', background: bg, transform: `rotate(${rot}deg)`, display: 'inline-block'}}>{t}</span>
-  );
-  return (
-    <div style={{display: 'flex', width: W, height: H, background: RW.paper, fontFamily: SANS, color: RW.ink}}>
-      <div style={{width: 200, background: RW.rail, color: RW.railText, borderRight: `3px solid ${RW.railText}`, padding: '16px 12px', display: 'flex', flexDirection: 'column'}}>
-        <div style={{padding: '0 8px 10px'}}>
-          <div style={{fontSize: 17, fontWeight: 700}}>Routeweft</div>
-          <div style={{fontSize: 9, letterSpacing: '0.18em', color: RW.railMuted, marginTop: 2}}>CONTROL PLANE</div>
-        </div>
-        {groups.map(([g, items]) => (
-          <div key={g} style={{marginTop: 12}}>
-            <div style={{fontFamily: MONO, fontSize: 9, letterSpacing: '0.08em', textTransform: 'uppercase', color: RW.railMuted, padding: '0 8px 4px'}}>{g}</div>
-            {items.map((it) => {
-              const act = it.startsWith('Combo');
-              return (
-                <div key={it} style={{height: 30, display: 'flex', alignItems: 'center', padding: '0 12px', borderRadius: 999, fontSize: 12, marginBottom: 2, background: act ? RW.yellow : 'transparent', color: act ? RW.ink : RW.railText, fontWeight: act ? 700 : 400, borderLeft: act ? `2px solid ${RW.ink}` : 'none', whiteSpace: 'nowrap', overflow: 'hidden'}}>
-                  {it}
-                </div>
-              );
-            })}
-          </div>
-        ))}
-      </div>
-      <div style={{flex: 1, minWidth: 0, padding: '20px 26px'}}>
-        <div style={{background: RW.pink, border: `3px solid ${RW.ink}`, borderRadius: 32, boxShadow: `10px 6px 0 ${RW.ink}`, padding: '14px 24px', display: 'flex', alignItems: 'center', gap: 14}}>
-          <span style={{fontSize: 15, fontWeight: 700}}>{saved ? '3' : '3'} Combo(s)</span>
-          <span style={{marginLeft: 'auto', display: 'flex', gap: 10}}>
-            <span style={{background: RW.ink, color: RW.paper, border: `3px solid ${RW.ink}`, borderRadius: 999, padding: '6px 18px', fontWeight: 700, fontSize: 14, boxShadow: `5px 3px 0 rgba(17,17,17,0.35)`}}>New Combo</span>
-            <span style={{background: RW.surface, border: `3px solid ${RW.ink}`, borderRadius: 999, padding: '6px 18px', fontWeight: 700, fontSize: 14, boxShadow: `5px 3px 0 ${RW.ink}`}}>Refresh</span>
-          </span>
-        </div>
-        {saved && (
-          <div style={{marginTop: 12, border: `2px solid ${RW.ink}`, background: '#d9f2e0', padding: '7px 14px', fontSize: 13, fontWeight: 600, opacity: pf(f, 74, 82)}}>Combo updated.</div>
-        )}
-        <div style={{display: 'flex', gap: 22, marginTop: saved ? 12 : 54}}>
-          <div style={{width: 300}}>
-            {[
-              ['fast-chat', `${all.filter((m) => m[1] === 'Selected').length} selected · ${all.length} members`, 'fallback', true],
-              ['long-context', '2 selected · 2 members', 'round-robin', false],
-              ['vision', '1 selected · 1 member', 'fallback', false],
-            ].map(([n, sub, st, cur]) => (
-              <div key={n as string} style={{border: `2px solid ${RW.ink}`, background: cur ? RW.surface2 : RW.surface, padding: '12px 14px', marginBottom: 10}}>
-                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                  <b style={{fontSize: 17}}>{n as string}</b>
-                  {tag(st as string)}
-                </div>
-                <div style={{fontSize: 12, color: RW.muted, margin: '4px 0 8px'}}>{sub as string}</div>
-                <div style={{display: 'flex', gap: 8}}>
-                  {pillBtn('Edit')}
-                  {pillBtn('Delete', {color: '#b0001a', borderColor: '#b0001a'})}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div style={{flex: 1, border: `2px solid ${RW.ink}`, background: RW.surface, padding: '16px 20px', minWidth: 0}}>
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-              <div>
-                <div style={{fontSize: 22, fontWeight: 700}}>Edit Combo</div>
-                <div style={{fontSize: 12, color: RW.muted, marginTop: 2}}>Ordered members route first-to-last; deselecting keeps a member without routing it.</div>
-              </div>
-              {pillBtn('Close')}
-            </div>
-            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, margin: '14px 0'}}>
-              {[
-                ['Name', 'fast-chat'],
-                ['Strategy', 'Ordered fallback'],
-              ].map(([k, v]) => (
-                <div key={k}>
-                  <div style={{fontSize: 11, fontWeight: 700, marginBottom: 3}}>{k}</div>
-                  <div style={{border: `2px solid ${RW.ink}`, padding: '6px 10px', fontSize: 13}}>{v}</div>
-                </div>
-              ))}
-            </div>
-            <div style={{display: 'flex', gap: 10}}>
-              <div style={{flex: 1, border: `2px solid ${RW.ink}`, padding: '7px 10px', fontSize: 13, fontFamily: MONO, minHeight: 20}}>
-                {added ? <span style={{color: '#777'}}>provider/model, alias or Combo name</span> : typedModel || <span style={{color: '#777'}}>provider/model, alias or Combo name</span>}
-                {!added && typedModel.length > 0 && typedModel.length < 18 && <span style={{opacity: Math.floor(f / 5) % 2}}>▍</span>}
-              </div>
-              <span style={{background: RW.ink, color: RW.paper, border: `3px solid ${RW.ink}`, borderRadius: 999, padding: '5px 16px', fontWeight: 700, fontSize: 13, transform: pressAdd ? 'translate(3px,3px)' : 'none'}}>Add member</span>
-            </div>
-            <div style={{marginTop: 12}}>
-              {all.map(([m, st], i) => {
-                const fresh = added && i === all.length - 1;
-                const p1 = fresh ? pf(f, 34, 44) : 1;
-                return (
-                  <div key={m} style={{display: 'flex', alignItems: 'center', gap: 12, padding: '8px 4px', borderTop: `1px solid ${RW.sub}`, opacity: (st === 'Deselected' ? 0.66 : 1) * p1, transform: `translateY(${(1 - p1) * 10}px)`}}>
-                    <span style={{width: 26, height: 26, border: `2px solid ${RW.ink}`, display: 'grid', placeItems: 'center', fontFamily: MONO, fontSize: 12, fontWeight: 700}}>{i + 1}</span>
-                    <span style={{fontFamily: MONO, fontSize: 13, flex: 1}}>{m}</span>
-                    {tag(st, st === 'Selected' ? '#bfeccf' : '#ffe08a', 0)}
-                    <span style={{fontSize: 13}}>↑ ↓</span>
-                    {pillBtn(st === 'Selected' ? 'Deselect' : 'Select')}
-                    {pillBtn('Remove', {color: '#b0001a', borderColor: '#b0001a'})}
-                  </div>
-                );
-              })}
-            </div>
-            <div style={{marginTop: 12}}>
-              <span style={{display: 'inline-block', background: RW.pink, border: `3px solid ${RW.ink}`, borderRadius: 999, padding: '7px 22px', fontWeight: 700, fontSize: 14, boxShadow: pressSave ? 'none' : `5px 3px 0 ${RW.ink}`, transform: pressSave ? 'translate(5px,3px)' : 'none'}}>{saved ? 'Save Combo' : 'Save Combo'}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-/* ---------- 5. antares (from web/src/styles.css + Chat.tsx: cream paper, 3px ink, hard shadows) ---------- */
+/* ---------- 4. antares (from web/src/styles.css + Chat.tsx: cream paper, 3px ink, hard shadows) ---------- */
 
 const AN = {canvas: '#f4f1e8', rail: '#e9e4d4', card: '#ffffff', ink: '#0b0b0b', ink2: '#4f4a40', cobalt: '#2d4bff', mark: '#ff6fae', peri: '#b3c1ff', mint: '#8ef0c0'};
 
@@ -783,7 +652,7 @@ const AntaresApp = (f: number) => {
   );
 };
 
-/* ---------- 6. sorot (from frontend/src/app/studio + tailwind tokens: pink desktop, cream windows, 3px black) ---------- */
+/* ---------- 5. sorot (from frontend/src/app/studio + tailwind tokens: pink desktop, cream windows, 3px black) ---------- */
 
 const SO = {bg: '#FF9EC0', cream: '#FBF3EA', white: '#fff', black: '#000', sun: '#FFD21F', hot: '#FF3D8B', aqua: '#4FD8E0', mint: '#14D99A', mintTint: '#9EF0C8', tang: '#FF7A3D', ok: '#0A7F50'};
 const STAGES = ['Import Video', 'Extract Audio', 'Transcribe', 'Segment', 'Score', 'Render Clips', 'Add Subtitles', 'Generate Variations', 'Analytics'];
@@ -924,7 +793,7 @@ const SorotApp = (f: number) => {
   );
 };
 
-/* ---------- 7. agents (from web/src/index.css + components: paper, 2px ink, square, rivets, graph-paper) ---------- */
+/* ---------- 6. agents (from web/src/index.css + components: paper, 2px ink, square, rivets, graph-paper) ---------- */
 
 const AG = {ink: '#1b1a17', paper: '#f2e4c7', panel: '#fbf3e0', card: '#fdf8ec', soft: '#5b5344', red: '#e4572e', redDeep: '#b23a17', teal: '#2e7d6f', gold: '#f4a93c', green: '#7bb662', sky: '#5aa9c9', idle: '#e3d7ba', review: '#b48ad1', rivet: '#c9b892', codex: '#0b6b5c', opencode: '#6b2fa0', claude: '#9a3b06'};
 const BUNGEE = `'Bungee', 'Arial Black', ${SANS}`;
@@ -1031,7 +900,6 @@ const SCENES = [
   {key: 'richmod', title: 'richmod · household finance', app: RichmodApp},
   {key: 'agenticform', title: 'agenticform · approvals', app: AgenticformApp},
   {key: 'literouter', title: 'literouter · dashboard', app: LiterouterApp},
-  {key: 'routeweft', title: 'routeweft · operator console', app: RouteweftApp},
   {key: 'antares', title: 'antares · chat', app: AntaresApp},
   {key: 'sorot', title: 'sorot · studio', app: SorotApp},
   {key: 'agents', title: 'agents · board', app: AgentsApp},
@@ -1046,7 +914,9 @@ export const UiProjectScene: React.FC<{
   lang: string;
   url: string;
 }> = ({index, name, say, lang, url}) => {
-  const s = SCENES[index];
+  /* matched by name, so the project list and the scenes can't drift apart */
+  const s = SCENES.find((x) => x.key === name);
+  if (!s) throw new Error(`no UI scene for project "${name}"`);
   return (
     <UiScene index={index} total={SCENES.length} name={name} say={say} lang={lang} url={url} title={s.title}>
       {s.app}

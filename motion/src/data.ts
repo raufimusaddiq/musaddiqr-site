@@ -2,14 +2,17 @@
    measurement, and nothing here is an event in time. */
 
 export const PROJECTS = [
-  {name: 'richmod', say: 'Self-hosted household finance system. Emails, Telegram messages and documents become an auditable ledger; the model interprets evidence, deterministic code owns the financial state.', lang: 'Go', vis: 'Public', url: 'github.com/raufimusaddiq/richmod'},
-  {name: 'agenticform', say: 'Control plane for coding agents across projects, tasks and reviews, with approvals, policy gates and isolated workspaces.', lang: 'Java', vis: 'Public', url: 'github.com/raufimusaddiq/agenticform'},
+  {name: 'richmod', say: 'Self-hosted household finance system. Emails, Telegram messages and documents become an auditable ledger; model output is untrusted, deterministic code owns every balance.', lang: 'Go', vis: 'Public', url: 'github.com/raufimusaddiq/richmod'},
+  {name: 'agenticform', say: 'Java control plane for Codex agents across local and remote nodes, with durable tasks, approvals, policy gates and isolated workspaces.', lang: 'Java', vis: 'Public', url: 'github.com/raufimusaddiq/agenticform'},
   {name: 'literouter', say: 'A lighter router over many LLM providers, forked from 9router and reworked.', lang: 'JavaScript', vis: 'Public', url: 'github.com/raufimusaddiq/literouter'},
-  {name: 'routeweft', say: 'Routing control plane, tracked for behavioural parity against the router it replaces.', lang: 'Go', vis: 'Public', url: 'github.com/raufimusaddiq/routeweft'},
-  {name: 'antares', say: 'Google-authenticated chat UI for a deployed agent, with a private profile bound to each user.', lang: 'Go', vis: 'Public', url: 'github.com/raufimusaddiq/antares'},
-  {name: 'sorot', say: 'Turns long videos into vertical 9:16 clips with word-timed captions, built for Indonesian short-form.', lang: 'TypeScript', vis: 'Public', url: 'github.com/raufimusaddiq/sorot'},
+  {name: 'antares', say: 'Google-authenticated chat UI for a deployed agent, with admin approval and a private profile bound to each user.', lang: 'Go', vis: 'Public', url: 'github.com/raufimusaddiq/antares'},
+  {name: 'sorot', say: 'Turns long videos into vertical 9:16 clips with word-timed captions for Indonesian short-form; explainable scoring picks the moments, all run locally.', lang: 'TypeScript', vis: 'Public', url: 'github.com/raufimusaddiq/sorot'},
   {name: 'agents', say: 'Agent UI with a wrapper around the terminal multiplexer the agents run in.', lang: 'Python', vis: 'Public', url: 'github.com/raufimusaddiq/agents'},
 ];
+
+/* "six public repositories": follows the list, so it can't go stale */
+const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+export const REPO_LINE = `${WORDS[PROJECTS.length] ?? PROJECTS.length} public repositories`;
 
 export const MECHANISMS = [
   {
