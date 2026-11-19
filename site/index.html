@@ -123,7 +123,7 @@
       <dl>
         <dt>Problem</dt><dd>Every coding agent (Claude Code, Codex, OpenCode and the rest) has its own interface, so anything that drives them is rewritten per agent, and running one on a shared machine is a risk.</dd>
         <dt>Built</dt><dd>One execution fabric for eight agent harnesses: a library, HTTP API, CLI and MCP server over a hub and outbound-only nodes. Switching agents is a one-line change.</dd>
-        <dt>The hard part</dt><dd>Safe by default. Every harness runs in a bubblewrap sandbox, and a node whose sandbox self-test fails refuses all runs rather than run unsandboxed. Commands hit a durable ledger before any effect, and permission requests are denied unless the caller allows them.</dd>
+        <dt>The hard part</dt><dd>Safe by default. Every harness runs in a bubblewrap sandbox, and a node whose sandbox self-test fails refuses all runs rather than run unsandboxed. Commands hit a durable ledger before any effect. Inside that boundary the agent runs freely by default; a run can opt in to having an owner answer each permission request remotely, or to refusing them all.</dd>
       </dl>
     </a>
     <a class="fcard" href="https://github.com/raufimusaddiq/sorot">
@@ -175,7 +175,7 @@
     <video muted playsinline preload="metadata" controls
            poster="assets/motion/projects-poster.jpg?v=a992c3194f"
            width="1920" height="1080" aria-label="The project list, as motion">
-      <source src="assets/motion/projects.mp4?v=3ef904ba4b" type="video/mp4">
+      <source src="assets/motion/projects.mp4?v=195b8dbf82" type="video/mp4">
     </video>
     <figcaption>The project list, animated · no sound</figcaption>
   </figure>

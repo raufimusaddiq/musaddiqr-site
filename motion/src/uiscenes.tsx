@@ -280,86 +280,212 @@ const RichmodApp = (f: number) => {
   );
 };
 
-/* ---------- 2. agenticform (from packages/hub/src/ui: index.html, app.css, app.js: the hub's plain operator console) ---------- */
+/* ---------- 2. agenticform (from packages/hub/src/ui: index.html, app.css, app.js: the night-shift ops console, dark theme) ---------- */
 
-const AFH = {bg: '#ffffff', ink: '#111111', dim: '#555555', line: '#111111', btn: '#efefef', btnLine: '#767676'};
-const SYS = `system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif`;
+/* app.css dark tokens */
+const AF = {ground: '#080c0a', panel: '#0d1311', sunk: '#050807', ink: '#d4efdb', ink2: '#9fbfa8', ink3: '#7b987f', line: '#2b4234', soft: '#1a2a20', ok: '#5df08a', run: '#5cc8ff', warn: '#ffb000', bad: '#ff6159'};
+const AFM = `ui-monospace, 'Cascadia Code', 'DejaVu Sans Mono', monospace`;
 
 /* illustrative machines and one run, in the console's own row and line formats */
-const AF_NODES: [string, string, string, string, string][] = [
-  ['devbox-a', 'online', 'claude, codex, opencode', '1/2', '2026-11-19T12:04:11Z'],
-  ['devbox-b', 'online', 'codex, hermes, pi', '0/1', '2026-11-19T12:04:09Z'],
-  ['ci-runner', 'offline', 'codex', '0/1', '2026-11-19T11:41:52Z'],
+type AfNode = {name: string; id: string; status: string; harnesses: [string, string][]; used: number; slots: number; hb: string};
+const AF_NODES: AfNode[] = [
+  {name: 'devbox-a', id: '7c1e9a42-5d3', status: 'online', harnesses: [['claude', 'ready'], ['codex', 'ready'], ['opencode', 'ready']], used: 1, slots: 2, hb: '3s ago'},
+  {name: 'devbox-b', id: 'e04b7f19-a2c', status: 'online', harnesses: [['codex', 'ready'], ['hermes', 'ready'], ['pi', 'missing']], used: 0, slots: 1, hb: '5s ago'},
+  {name: 'ci-runner', id: '91d3c8e5-6f0', status: 'offline', harnesses: [['codex', 'ready']], used: 0, slots: 1, hb: '23m ago'},
 ];
+const AF_RUN = '3f2b9c1e-8a4d-4c7e-9b21-6d0e5a7f4c13';
+const AF_NODE_ID = '7c1e9a42-5d3b-4f8e-a1c0-2b6d9e3f7a15';
 const AF_EVENTS: [string, string][] = [
   ['run.started', '{"harness":"codex"}'],
   ['run.capabilities', '{"streaming":true}'],
   ['turn.started', '{}'],
-  ['message.delta', '{"text":"Reading the failing test first."}'],
+  ['message.delta', 'Reading the failing test first.'],
   ['tool.call', '{"name":"bash","input":"bun test packages/hub"}'],
   ['tool.update', '{"status":"completed"}'],
-  ['message.delta', '{"text":"The lease check compared the wrong clock."}'],
+  ['message.delta', 'The lease check compared the wrong clock.'],
   ['tool.call', '{"name":"edit","path":"packages/hub/src/runs.ts"}'],
   ['turn.finished', '{}'],
   ['run.finished', '{"status":"completed"}'],
 ];
 
+/* status lamps: shape + word, never colour alone (app.css) */
+const AF_LAMP: Record<string, [string, string]> = {
+  online: ['●', AF.ok], ready: ['●', AF.ok], completed: ['●', AF.ok],
+  running: ['◐', AF.run], missing: ['▲', AF.warn],
+};
+const afBadge = (status: string, label: React.ReactNode = status) => {
+  const [glyph, color] = AF_LAMP[status] ?? ['◌', AF.ink2];
+  return (
+    <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.35em', fontSize: '0.78rem', fontWeight: 700, padding: '0.05rem 0.5rem', border: '1px solid currentColor', color, whiteSpace: 'nowrap'}}>
+      <span>{glyph}</span>
+      <span>{label}</span>
+    </span>
+  );
+};
+const afBtn = (t: string, kind: 'secondary' | 'ghost' | 'danger' = 'secondary', small = false, dim = false) => {
+  const base: React.CSSProperties = {display: 'inline-block', fontWeight: 700, fontSize: small ? '0.8rem' : '0.85rem', padding: small ? '0.2rem 0.6rem' : '0.45rem 0.9rem', color: AF.ink, background: AF.panel, border: `1px solid ${AF.line}`, boxShadow: `3px 3px 0 ${AF.line}`, whiteSpace: 'nowrap', opacity: dim ? 0.45 : 1};
+  if (kind === 'ghost') Object.assign(base, {background: 'transparent', border: '1px solid transparent', boxShadow: 'none', textDecoration: 'underline', textUnderlineOffset: 3});
+  if (kind === 'danger') Object.assign(base, {color: AF.bad, borderColor: AF.bad, boxShadow: dim ? 'none' : `3px 3px 0 ${AF.bad}`});
+  return <span style={base}>{t}</span>;
+};
+const afPill = (t: string, strong = false) => (
+  <span style={{fontSize: '0.75rem', padding: '0 0.4rem', border: `1px solid ${strong ? AF.ink : AF.soft}`, color: strong ? AF.ink : AF.ink2, fontWeight: 400}}>{t}</span>
+);
+/* the instrument-panel corner brackets */
+const afBrackets = (
+  <>
+    <div style={{position: 'absolute', top: -1, left: -1, width: 14, height: 14, borderTop: `3px solid ${AF.ink}`, borderLeft: `3px solid ${AF.ink}`}} />
+    <div style={{position: 'absolute', bottom: -1, right: -1, width: 14, height: 14, borderBottom: `3px solid ${AF.ink}`, borderRight: `3px solid ${AF.ink}`}} />
+  </>
+);
+
 const AgenticformApp = (f: number) => {
   const runView = f >= 40;
   const shown = runView ? Math.max(0, Math.min(AF_EVENTS.length, Math.floor((f - 44) / 4.6) + 1)) : 0;
   const done = shown >= AF_EVENTS.length;
-  const btn = (t: string, pressed = false): React.ReactNode => (
-    <span style={{display: 'inline-block', fontSize: 15, padding: '3px 10px', border: `1px solid ${AFH.btnLine}`, borderRadius: 3, background: pressed ? '#dcdcdc' : AFH.btn}}>{t}</span>
+  const beat = Math.floor(f / 18) % 2 === 0; // the lamps blink in steps, as the console's `beat` keyframes do
+  const tab = (label: string, extra: React.ReactNode, active: boolean) => (
+    <span style={{fontWeight: 700, color: active ? AF.ink : AF.ink3, padding: '0.55rem 1rem', display: 'inline-flex', gap: '0.5rem', alignItems: 'center', border: `1px solid ${active ? AF.line : 'transparent'}`, borderBottom: 0, marginBottom: -1, background: active ? AF.panel : 'none', boxShadow: active ? `inset 0 3px 0 ${AF.ok}` : 'none'}}>
+      {label} {extra}
+    </span>
   );
-  const th: React.CSSProperties = {textAlign: 'left', padding: '6px 10px', borderBottom: `1px solid ${AFH.line}`, fontWeight: 700};
-  const td: React.CSSProperties = {textAlign: 'left', padding: '6px 10px', borderBottom: `1px solid ${AFH.line}`};
-  const stamp = (i: number) => `2026-11-19T12:04:${String(12 + i * 3).padStart(2, '0')}Z`;
+  const th: React.CSSProperties = {textAlign: 'left', fontSize: '0.72rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: AF.ink3, padding: '0.55rem 0.8rem', borderBottom: `2px solid ${AF.line}`, whiteSpace: 'nowrap', background: AF.sunk};
+  const td: React.CSSProperties = {padding: '0.7rem 0.8rem', borderBottom: `1px solid ${AF.soft}`, verticalAlign: 'top'};
+  const time = (i: number) => `12:04:${String(12 + Math.floor(i * 1.7)).padStart(2, '0')}.${String((i * 137 + 41) % 1000).padStart(3, '0')}`;
+  const typeColor = (t: string) => (t.startsWith('message.') ? AF.run : t === 'run.finished' ? AF.ok : AF.ink2);
   return (
-    <div style={{width: W, height: H, background: AFH.bg, color: AFH.ink, fontFamily: SYS, fontSize: 16, lineHeight: 1.4}}>
-      {/* the console's 60rem column at about 130% browser zoom, so it reads at the scale of the other scenes */}
-      <div style={{maxWidth: 900, margin: '0 auto', padding: '18px 24px', zoom: 1.32}}>
-        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-          <div style={{fontSize: 21, fontWeight: 700}}>Agenticform hub</div>
-          {btn('Sign out')}
-        </div>
-        <div style={{display: 'flex', gap: 8, margin: '16px 0'}}>
-          {btn('Machines', !runView && f > 2)}
-          {btn('Runs', f >= 34 && f < 40)}
-        </div>
-        {!runView ? (
-          <div style={{opacity: pf(f, 0, 8)}}>
-            <div style={{fontSize: 24, fontWeight: 700, margin: '4px 0 12px'}}>Machines</div>
-            <div style={{marginBottom: 12}}>{btn('Refresh')}</div>
-            <table style={{borderCollapse: 'collapse', width: '100%', fontSize: 16}}>
-              <thead>
-                <tr>{['Name', 'Status', 'Harnesses', 'Capacity', 'Last heartbeat'].map((h) => <th key={h} style={th}>{h}</th>)}</tr>
-              </thead>
-              <tbody>
-                {AF_NODES.map((n, i) => (
-                  <tr key={n[0]} style={{opacity: pf(f, 6 + i * 5, 14 + i * 5)}}>
-                    {n.map((c, j) => <td key={j} style={{...td, color: j === 1 && c === 'offline' ? AFH.dim : AFH.ink}}>{c}</td>)}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+    <div style={{width: W, height: H, overflow: 'hidden', fontFamily: AFM, fontSize: 14, lineHeight: 1.5, color: AF.ink, backgroundColor: AF.ground, backgroundImage: 'repeating-linear-gradient(0deg, rgba(93,240,138,0.035) 0, rgba(93,240,138,0.035) 1px, transparent 1px, transparent 3px)'}}>
+      <div style={{zoom: 1}}>
+        {/* header: the wordmark is a prompt */}
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.7rem 1.5rem', background: AF.sunk, borderBottom: `2px solid ${AF.line}`}}>
+          <div style={{display: 'flex', alignItems: 'center', gap: '0.7rem'}}>
+            <svg viewBox="0 0 32 32" width={24} height={24}>
+              <circle cx="10" cy="11" r="3" fill="#38bdf8" />
+              <circle cx="22" cy="11" r="3" fill="#10b981" />
+              <circle cx="16" cy="22" r="3.2" fill="#6366f1" />
+              <path d="M10 11 L16 22 L22 11" stroke={AF.ink} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="1 3" fill="none" />
+            </svg>
+            <span style={{fontWeight: 700, fontSize: '1.05rem', letterSpacing: '0.02em'}}><span style={{color: AF.ok}}>$ </span>Agenticform</span>
+            <span style={{fontSize: '0.75rem', color: AF.ink3}}>// hub operator console</span>
           </div>
-        ) : (
-          <div style={{opacity: pf(f, 40, 46)}}>
-            <div style={{fontSize: 24, fontWeight: 700, margin: '4px 0 8px'}}>Run run_01JD7Q3K9V</div>
-            <div style={{margin: '0 0 10px'}}>Status: <b>{done ? 'completed' : 'running'}</b></div>
-            <div style={{display: 'flex', gap: 8, marginBottom: 14}}>
-              <span style={{opacity: done ? 0.45 : 1}}>{btn('Cancel')}</span>
-              {btn('Back')}
+          <div style={{display: 'flex', alignItems: 'center', gap: '0.6rem'}}>
+            <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.25rem 0.6rem', border: `1px solid ${AF.line}`, fontSize: '0.8rem'}}>
+              <span style={{width: '0.6rem', height: '0.6rem', background: AF.ok, opacity: beat ? 1 : 0.15, display: 'inline-block'}} />
+              Connected (Admin)
+            </span>
+            <span style={{padding: '0.3rem 0.6rem', border: `1px solid ${AF.line}`, fontWeight: 700, fontSize: '0.75rem', letterSpacing: '0.1em', background: AF.panel}}>THEME</span>
+            {afBtn('Sign out', 'ghost')}
+          </div>
+        </div>
+
+        <div style={{padding: '1.25rem 1.5rem 0'}}>
+          <div style={{display: 'flex', borderBottom: `1px solid ${AF.line}`, marginBottom: '1.25rem'}}>
+            {tab('Machines', afPill('3', !runView), !runView)}
+            {tab('Runs', afPill(runView ? '1' : '0', runView), runView)}
+            {tab('Tokens', afPill('Admin'), false)}
+          </div>
+
+          {!runView ? (
+            <div style={{opacity: pf(f, 0, 8)}}>
+              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '1rem'}}>
+                <div>
+                  <div style={{fontSize: '1.25rem', fontWeight: 700}}><span style={{color: AF.ink3}}>## </span>Machines</div>
+                  <div style={{color: AF.ink2, fontSize: '0.85rem', marginTop: '0.15rem'}}>Enrolled nodes executing harnesses across the cluster.</div>
+                </div>
+                <div style={{display: 'flex', alignItems: 'center', gap: '0.8rem'}}>
+                  <span style={{color: AF.ink3, fontSize: '0.8rem'}}>2/3 online · 1/4 capacity slots in use</span>
+                  {afBtn('↻ Refresh')}
+                </div>
+              </div>
+              <div style={{border: `1px solid ${AF.line}`, background: AF.panel}}>
+                <table style={{width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem'}}>
+                  <thead>
+                    <tr>{['Node', 'Status', 'Harnesses & Health', 'Isolation', 'Capacity', 'Last Heartbeat', 'Actions'].map((h, i) => <th key={h} style={{...th, textAlign: i === 6 ? 'right' : 'left'}}>{h}</th>)}</tr>
+                  </thead>
+                  <tbody>
+                    {AF_NODES.map((n, i) => (
+                      <tr key={n.name} style={{opacity: pf(f, 6 + i * 5, 14 + i * 5)}}>
+                        <td style={td}>
+                          <div style={{fontWeight: 700}}>{n.name}</div>
+                          <div style={{color: AF.ink3, fontSize: '0.75rem', whiteSpace: 'nowrap'}}>{n.id}... <span style={{marginLeft: '0.4rem'}}>{afPill('v1')}</span></div>
+                        </td>
+                        <td style={td}>{afBadge(n.status)}</td>
+                        <td style={td}>
+                          <div style={{display: 'flex', flexWrap: 'wrap', gap: '0.35rem'}}>
+                            {n.harnesses.map(([h, st]) => (
+                              <React.Fragment key={h}>{afBadge(st, <><b>{h}</b><span style={{fontWeight: 400}}> ({st}{st === 'missing' ? ': not_installed' : ''})</span></>)}</React.Fragment>
+                            ))}
+                          </div>
+                        </td>
+                        <td style={td}>{afBadge('ready', 'bwrap (self-test: pass)')}</td>
+                        <td style={td}>
+                          <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
+                            <div style={{width: '4.5rem', height: '0.8rem', border: `1px solid ${AF.line}`, background: AF.sunk, overflow: 'hidden'}}>
+                              <div style={{height: '100%', width: `${Math.round((n.used / n.slots) * 100)}%`, background: `repeating-linear-gradient(90deg, ${AF.ok} 0, ${AF.ok} 6px, transparent 6px, transparent 8px)`}} />
+                            </div>
+                            <span style={{fontSize: '0.75rem'}}>{n.used}/{n.slots}</span>
+                          </div>
+                        </td>
+                        <td style={{...td, whiteSpace: 'nowrap'}}>{n.hb}</td>
+                        <td style={{...td, textAlign: 'right'}}>{afBtn('Disable', 'ghost', true)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <ol style={{fontFamily: MONO, fontSize: 14, margin: 0, paddingLeft: 30, lineHeight: 1.55}}>
-              {AF_EVENTS.slice(0, shown).map(([t, d], i) => (
-                <li key={i} style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
-                  {`${i + 1} ${stamp(i)} ${t} ${d}`}
-                </li>
-              ))}
-            </ol>
-          </div>
-        )}
+          ) : (
+            <div style={{opacity: pf(f, 40, 46)}}>
+              <div style={{position: 'relative', background: AF.panel, border: `1px solid ${AF.line}`, padding: '1.1rem 1.25rem', marginBottom: '1.25rem'}}>
+                {afBrackets}
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.9rem'}}>
+                  {afBtn('← Back to Runs', 'ghost')}
+                  <div style={{display: 'flex', gap: '0.6rem'}}>
+                    {afBtn('↻ Resume Stream')}
+                    {afBtn('Cancel Run', 'danger', false, done)}
+                  </div>
+                </div>
+                <div style={{fontSize: '1.25rem', fontWeight: 700, display: 'flex', gap: '0.6rem', alignItems: 'baseline'}}>
+                  Run <span style={{fontSize: '0.9rem', color: AF.ink2, fontWeight: 400}}>{AF_RUN}</span>
+                </div>
+                <div style={{display: 'flex', gap: '1.2rem', marginTop: '0.6rem', color: AF.ink2, fontSize: '0.82rem', alignItems: 'center'}}>
+                  <span>Status: {afBadge(done ? 'completed' : 'running')}</span>
+                  <span>Node: {AF_NODE_ID}</span>
+                  <span>Gen: 1</span>
+                </div>
+              </div>
+              <div style={{position: 'relative', background: AF.panel, border: `1px solid ${AF.line}`}}>
+                {afBrackets}
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.7rem 1.25rem', borderBottom: `1px solid ${AF.line}`, background: AF.sunk}}>
+                  <div style={{display: 'flex', gap: '0.8rem', alignItems: 'center'}}>
+                    <span style={{fontWeight: 700, fontSize: '0.8rem'}}>
+                      <span style={{color: AF.ok}}>$ tail -f </span>
+                      <span style={{letterSpacing: '0.14em', textTransform: 'uppercase'}}>run events</span>
+                    </span>
+                    <span style={{display: 'inline-flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', padding: '0 0.5rem', border: '1px solid currentColor', color: AF.ok}}>
+                      <span style={{width: '0.55rem', height: '0.55rem', background: 'currentColor', opacity: beat ? 1 : 0.15}} /> LIVE
+                    </span>
+                    <span style={{color: AF.ink3, fontSize: '0.8rem'}}>{shown} events</span>
+                  </div>
+                  <span style={{fontSize: '0.8rem', color: AF.ink2, display: 'inline-flex', alignItems: 'center', gap: '0.4rem'}}>
+                    <span style={{width: 13, height: 13, background: AF.ok, display: 'inline-block'}} /> Auto-scroll
+                  </span>
+                </div>
+                <div style={{padding: '0.6rem 0', background: AF.sunk, fontSize: '0.82rem', minHeight: 290}}>
+                  {AF_EVENTS.slice(0, shown).map(([t, d], i) => (
+                    <div key={i} style={{display: 'grid', gridTemplateColumns: '3.2rem 7.5rem 11rem minmax(0, 1fr)', gap: '0 0.8rem', alignItems: 'baseline', padding: '0.12rem 1.25rem', background: i === shown - 1 && !done ? AF.panel : 'transparent'}}>
+                      <span style={{color: AF.ink3, textAlign: 'right'}}>#{i + 1}</span>
+                      <span style={{color: AF.ink3}}>{time(i)}</span>
+                      <span style={{fontWeight: 700, color: typeColor(t)}}>{t}</span>
+                      <span style={{color: t === 'message.delta' ? AF.ink : AF.ink2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>{d}</span>
+                    </div>
+                  ))}
+                  <div style={{padding: '0 1.25rem', color: AF.ok, opacity: beat ? 1 : 0.15}}>{'█'}</div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
