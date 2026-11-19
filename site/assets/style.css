@@ -253,6 +253,106 @@ h2.sub-h{margin-top:clamp(32px,3.4vw,44px)}
 .elsewhere a{color:var(--ink-2);min-height:44px;display:inline-flex;align-items:center}
 .elsewhere a:hover{color:var(--ink)}
 
+/* friendly section titles: a big line under the tracked label */
+.big{font-size:clamp(28px,3.3vw,46px);font-weight:700;letter-spacing:-.035em;line-height:1.08;
+     margin:-4px 0 16px;max-width:26ch}
+.big + .meta{margin-top:0}
+
+/* drawn pictures: inline SVG in the page's own inks */
+.hero-pic text,.pic text{font-family:var(--label)}
+
+/* hero: text with a drawn picture beside it */
+.hero-pic{position:relative;margin:clamp(40px,6vw,56px) 0 0;max-width:520px;width:100%}
+.hero-pic .card{border:2px solid var(--ink);border-radius:var(--r-lg);background:var(--rail);
+                box-shadow:var(--hard);transform:rotate(1.4deg);padding:26px 16px 6px}
+.hero-pic svg{display:block;width:100%;height:auto}
+.hero-pic .bot{transition:transform .25s ease-out}
+.hero-pic:hover .bot{transform:translateY(-7px)}
+.hero-pic:hover .bot:nth-of-type(2){transform:translateY(-4px)}
+.hi{position:absolute;top:-18px;right:24px;z-index:1;background:var(--card);border:2px solid var(--ink);
+    border-radius:var(--r-pill);padding:8px 18px;font-size:17px;font-weight:700;letter-spacing:-.01em;
+    box-shadow:var(--hard-sm);transform:rotate(-3deg)}
+.hero-pic figcaption{font-family:var(--label);font-size:14px;letter-spacing:.06em;text-transform:uppercase;
+                     color:var(--ink-2);margin-top:16px;text-align:center}
+@media (min-width:1000px){
+  .hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);column-gap:clamp(36px,4.5vw,72px);align-items:center}
+  .hero .stmt{font-size:clamp(44px,4.4vw,68px)}
+  .hero-pic{margin:0;justify-self:end}
+}
+
+/* pictures at the top of the featured cards */
+.pic{background:var(--rail);border:2px solid var(--ink);border-radius:var(--r-md);padding:12px 12px 10px;margin-bottom:16px}
+.pic svg{display:block;width:100%;height:auto}
+
+/* how work moves: a path you can break */
+.flow{border:2px solid var(--ink);border-radius:var(--r-lg);background:var(--card);box-shadow:var(--hard);
+      padding:clamp(18px,2.4vw,28px)}
+.flow-ctl{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-bottom:clamp(24px,3vw,36px)}
+.seg{display:inline-flex;flex-wrap:wrap;gap:2px;border:2px solid var(--ink);border-radius:26px;padding:3px;background:var(--canvas)}
+.seg button{font:inherit;font-family:var(--label);font-size:14px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+            min-height:44px;padding:0 16px;border:0;border-radius:var(--r-pill);background:none;color:var(--ink);cursor:pointer}
+.seg button:hover{background:var(--rail)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--canvas)}
+.seg .brk[aria-pressed="true"]{background:var(--pink);color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.stage{position:relative;background:var(--rail);border:2px solid var(--ink);border-radius:var(--r-md);
+       padding:104px clamp(16px,3vw,40px) 60px;overflow:hidden}
+.track{display:flex;align-items:center;justify-content:center}
+.walker{position:absolute;left:0;top:18px;width:56px;z-index:1;transition:transform .42s cubic-bezier(.3,1.4,.5,1)}
+.walker.jump{transition:none}
+.walker svg{display:block;width:56px;height:auto;overflow:visible}
+.walker.held svg{animation:nudge .5s ease-in-out 2}
+.bubble{position:absolute;bottom:calc(100% - 22px);left:44px;white-space:nowrap;background:var(--card);border:2px solid var(--ink);
+        border-radius:14px 14px 14px 4px;padding:3px 11px;font-family:var(--label);font-size:14px;font-weight:700;
+        box-shadow:var(--hard-sm);opacity:0;transform:scale(.6);transform-origin:0 100%;transition:opacity .18s,transform .18s}
+.bubble.on{opacity:1;transform:none}
+.bubble.warn{background:var(--sun)}
+@keyframes nudge{0%,100%{transform:none}30%{transform:translateX(-4px)}70%{transform:translateX(3px)}}
+.fnode{position:relative;flex:0 1 auto;min-width:132px;text-align:center;padding:15px 22px;font-weight:600;border:2px dashed var(--hair);
+       border-radius:var(--r-pill);background:var(--canvas);color:var(--ink-2);font-family:var(--label);font-size:14px;
+       letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;
+       transition:background .2s,color .2s,box-shadow .2s,border-color .2s}
+.fnode.on{border:2px solid var(--ink);color:var(--ink);background:var(--card);box-shadow:var(--hard-sm)}
+.fnode.on.pink{background:var(--pink)}
+.fnode.on.sun{background:var(--sun)}
+.fnode.on.mint{background:var(--mint)}
+.fnode.on.cobalt{background:var(--cobalt);color:#fff}
+.fnode.on.held{background:var(--sun);color:var(--ink)}
+.fnode.on.ok{background:var(--mint);color:var(--ink)}
+.fnode.on.bad{background:var(--pink);color:var(--ink)}
+.fnote{position:absolute;left:50%;top:calc(100% + 12px);transform:translateX(-50%) rotate(-2deg);
+       background:var(--card);border:2px solid var(--ink);border-radius:var(--r-pill);padding:3px 11px;
+       font-size:14px;letter-spacing:.01em;text-transform:none;white-space:nowrap;color:var(--ink);box-shadow:var(--hard-sm)}
+.flink{flex:1 1 30px;min-width:22px;max-width:190px;border-top:2px dashed var(--hair);transition:border-color .2s}
+.flink.on{border-top:2px solid var(--ink)}
+.flow-foot{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(14px,2vw,20px);margin-top:clamp(16px,2vw,20px)}
+.flow-foot > div{border:2px solid var(--ink);border-radius:var(--r-md);padding:16px 20px}
+.flow-foot .what{background:var(--card)}
+.flow-foot .stops{background:var(--canvas)}
+.flow-foot .k{font-family:var(--label);font-size:14px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+.flow-foot .say{font-size:clamp(16px,1.3vw,19px);line-height:1.5;min-height:3em}
+.flow-foot .stops .say{font-size:clamp(15px,1.15vw,17px);color:var(--ink-2)}
+.flow .try{font-family:var(--label);font-size:14px;color:var(--ink-2);margin-top:12px}
+#map .flow + .map{display:none}
+@media (max-width:760px){
+  .stage{padding:18px 16px 20px}
+  .walker{display:none}
+  .flow-foot{grid-template-columns:minmax(0,1fr)}
+  .track{flex-direction:column;align-items:stretch}
+  .fnode{min-width:0;white-space:normal}
+  .flink{flex:none;width:0;height:20px;min-width:0;max-width:none;margin:0 auto;border-top:0;border-left:2px dashed var(--hair)}
+  .flink.on{border-top:0;border-left:2px solid var(--ink)}
+  .fnote{position:static;display:inline-block;transform:rotate(-2deg);margin:6px 0 0 10px}
+}
+
+/* who's building this */
+.about{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(20px,3.4vw,44px);align-items:center;
+       border:2px solid var(--ink);border-radius:var(--r-lg);background:var(--card);box-shadow:var(--hard);
+       padding:clamp(20px,3vw,36px)}
+.ava{width:clamp(104px,11vw,150px);aspect-ratio:1;border:2px solid var(--ink);border-radius:50%;background:var(--sun);
+     box-shadow:var(--hard-sm);display:grid;place-items:center}
+.ava svg{width:58%;height:auto;display:block;margin-top:6%}
+.about .big{margin-bottom:12px}
+.bio{font-size:clamp(16px,1.3vw,19px);line-height:1.6;color:var(--ink-2);max-width:68ch}
 
 /* the map: below 960px a row no longer fits on one line, so it wraps */
 @media (max-width:960px){
@@ -298,6 +398,8 @@ h2.sub-h{margin-top:clamp(32px,3.4vw,44px)}
   .prin div{padding:15px 16px}
   .node{padding:9px 11px}
   footer .wrap{flex-direction:column;gap:6px}
+  .about{grid-template-columns:minmax(0,1fr)}
+  .hi{font-size:15px;right:14px}
 }
 /* very narrow: stack the path top-down rather than let a node wrap */
 @media (max-width:350px){
@@ -312,4 +414,154 @@ h2.sub-h{margin-top:clamp(32px,3.4vw,44px)}
 @media (prefers-reduced-motion:reduce){
   *{scroll-behavior:auto}
   body::after{display:none}
+  .hero-pic .bot,.fnode,.flink,.walker,.bubble{transition:none}
+  .walker.held svg{animation:none}
+  .hero-pic:hover .bot{transform:none}
 }
+
+/* keep the highlight and its full stop together */
+.stmt .nw{white-space:nowrap}
+/* availability: what for, then where from, as two rows */
+.avail.where{margin-top:8px}
+.avail.where b{background:var(--sun)}
+/* mechanism cards carry a drawing across the top */
+.mech .pic{grid-column:1 / -1;margin-bottom:16px}
+.mech .no{grid-row:2 / span 3}
+@media (max-width:560px){ .mech .no{grid-row:auto} .mech .pic{margin-bottom:4px} }
+
+/* ---- scrolling ---- */
+/* the nav stays on screen above phone width; on a phone it is two rows and would eat the screen */
+nav{position:relative;background:var(--canvas);z-index:20}
+@media (min-width:561px){
+  nav{position:sticky;top:0}
+  section,.hero{scroll-margin-top:96px}
+}
+nav .progress{position:absolute;left:0;right:0;bottom:-2px;height:4px;background:var(--pink);
+              transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
+@media (max-width:560px){ nav .progress{display:none} }
+nav .links{position:relative}
+nav .links a{position:relative;z-index:1;transition:color .2s}
+nav .links .ind{position:absolute;left:0;top:50%;height:40px;margin-top:-20px;border:2px solid var(--ink);
+                border-radius:var(--r-pill);background:var(--sun);box-shadow:var(--hard-sm);opacity:0;
+                transition:transform .45s cubic-bezier(.3,1.3,.5,1),width .45s cubic-bezier(.3,1.3,.5,1),opacity .2s}
+nav .links .ind.on{opacity:1}
+nav .links a[aria-current]{font-weight:600}
+nav .links a[aria-current]:hover{border-color:transparent}
+
+/* arriving at a section: a marker sweeps across its label */
+section > h2,.about h2{position:relative;isolation:isolate;display:inline-block}
+section > h2::before,.about h2::before{content:"";position:absolute;inset:-5px -10px;z-index:-1;background:var(--sun);
+  border:2px solid var(--ink);border-radius:var(--r-pill);transform:scaleX(0);transform-origin:0 50%;opacity:0}
+h2.arrive::before{animation:sweep 1.9s cubic-bezier(.2,.7,.2,1)}
+@keyframes sweep{0%{transform:scaleX(0);opacity:1}22%{transform:scaleX(1);opacity:1}75%{transform:scaleX(1);opacity:1}100%{transform:scaleX(1);opacity:0}}
+[tabindex="-1"]:focus{outline:none;box-shadow:none}
+
+/* reveal on scroll: only with script, and never under reduced motion */
+.js .rv{opacity:0;transform:translateY(26px)}
+.js .rv.in{opacity:1;transform:none;
+  transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1),box-shadow .12s}
+.js .hero-pic.rv{transform:translateY(26px) rotate(2deg)}
+.js .hero-pic.rv.in{transform:none}
+.js a.fcard.rv.in:hover{transform:translate(2px,2px)}
+@media (prefers-reduced-motion:reduce){
+  .js .rv{opacity:1;transform:none}
+  h2.arrive::before{animation:none}
+  nav .links .ind{transition:none}
+}
+/* a nav glide passes blocks too fast to fade them in: show them as they pass */
+.js.gliding .rv{opacity:1;transform:none;transition:none}
+
+/* hire paths: white cards like the featured work, a drawing on top, a coloured tag, short rows */
+.path{background:var(--card)}
+.path .k{align-self:flex-start;border:2px solid var(--ink);border-radius:var(--r-pill);padding:5px 12px;background:var(--canvas)}
+.path .k.sun{background:var(--sun)}
+.path .k.mint{background:var(--mint)}
+.path h3{font-size:clamp(19px,1.7vw,23px);margin:14px 0 6px}
+.path dl{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:0;row-gap:0;margin-top:8px}
+.path dt{padding-right:18px}
+.path .pic svg{max-height:150px;margin:0 auto}
+.path dt{font-family:var(--label);font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+         padding:12px 18px 12px 0;border-top:2px solid var(--rail)}
+.path dd{font-size:15px;line-height:1.5;color:var(--ink-2);padding:10px 0;border-top:2px solid var(--rail)}
+.path .how{color:var(--ink-2);margin-top:6px;padding-top:12px;border-top:2px solid var(--rail)}
+@media (max-width:420px){
+  .path dl{grid-template-columns:minmax(0,1fr)}
+  .path dt{padding:12px 0 2px}
+  .path dd{border-top:0;padding-top:0}
+}
+
+/* everything else: compact cards with a drawn icon tile, three across */
+.more{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:16px}
+.mcard{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto 1fr auto;
+       column-gap:16px;row-gap:6px;align-items:start;border:2px solid var(--ink);border-radius:var(--r-md);
+       background:var(--card);padding:18px 20px;text-decoration:none;color:var(--ink);
+       transition:transform .12s ease-out,box-shadow .12s}
+a.mcard:hover,a.mcard:focus-visible{transform:translate(-2px,-2px);box-shadow:var(--hard)}
+.mcard .ico{grid-row:1 / span 2;width:52px;height:52px;border:2px solid var(--ink);border-radius:var(--r-md);
+            display:grid;place-items:center;background:var(--canvas);box-shadow:var(--hard-sm)}
+.mcard .ico svg{width:34px;height:34px}
+.mcard .ico.pink{background:var(--pink)}
+.mcard .ico.sun{background:var(--sun)}
+.mcard .ico.mint{background:var(--mint)}
+.mcard .ico.cobalt{background:var(--cobalt)}
+.mcard .nm{font-size:clamp(18px,1.5vw,21px);font-weight:700;letter-spacing:-.015em;line-height:1.25;align-self:center}
+a.mcard .nm::after{content:"\2197";font-size:.7em;margin-left:.45em;vertical-align:.15em;opacity:.45}
+.mcard .say{grid-column:2;color:var(--ink-2);font-size:15px;line-height:1.5}
+.mcard .tags{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:10px;
+             padding-top:12px;border-top:2px solid var(--rail)}
+.mcard .vis{font-family:var(--label);font-size:14px;color:var(--ink-2);letter-spacing:.04em}
+@media (max-width:420px){
+  .mcard{grid-template-columns:minmax(0,1fr)}
+  .mcard .ico{grid-row:auto}
+  .mcard .say{grid-column:1}
+}
+@media (min-width:1000px){
+  .more{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .more > .mcard{grid-column:span 2}
+  .more > div.mcard{grid-column:span 3}
+}
+
+/* principles: a rule in big type, a numbered badge, and what it means in practice */
+.prin{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:18px}
+.prin .pcard{border:2px solid var(--ink);border-radius:var(--r-lg);background:var(--card);box-shadow:var(--hard);
+             padding:22px 24px 24px;display:flex;flex-direction:column;gap:12px}
+.prin .no{width:46px;height:46px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:50%;
+          font-family:var(--label);font-size:15px;font-weight:700;letter-spacing:.04em;color:var(--ink);
+          background:var(--canvas);box-shadow:var(--hard-sm);margin:0}
+.prin .no.pink{background:var(--pink)}
+.prin .no.sun{background:var(--sun)}
+.prin .no.mint{background:var(--mint)}
+.prin .rule{font-size:clamp(20px,1.8vw,25px);font-weight:700;letter-spacing:-.02em;line-height:1.2}
+.prin .ex{font-size:15px;line-height:1.55;color:var(--ink-2);padding-top:12px;border-top:2px solid var(--rail);margin-top:auto}
+
+/* working set: an icon tile per group, tools as chips */
+.set{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:18px}
+.set .grp{border:2px solid var(--ink);border-radius:var(--r-lg);background:var(--card);padding:20px 22px 22px}
+.set .gh{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.set .gh h3{margin:0;font-size:14px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+.set .ico{width:48px;height:48px;flex:none;border:2px solid var(--ink);border-radius:var(--r-md);display:grid;place-items:center;
+          box-shadow:var(--hard-sm);background:var(--canvas)}
+.set .ico svg{width:30px;height:30px}
+.set .ico.pink{background:var(--pink)}
+.set .ico.sun{background:var(--sun)}
+.set .ico.mint{background:var(--mint)}
+.set .ico.cobalt{background:var(--cobalt)}
+.tools{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.tools li{font-size:14px;font-weight:600;line-height:1;padding:8px 12px;border:2px solid var(--ink);border-radius:var(--r-pill);
+          background:var(--canvas);white-space:nowrap}
+/* the drone: watches the gate in the hero, patrols the Watch path */
+.walker.flying{top:30px;width:76px}
+.walker.flying svg{width:76px}
+.walker.flying .bubble{left:70px;bottom:calc(100% - 14px)}
+.hero-pic .hi{right:auto;left:22px;transform:rotate(3deg)}
+.hero-pic .drone{transition:transform .35s ease-out}
+.hero-pic:hover .drone{transform:translateY(-5px)}
+@media (prefers-reduced-motion:reduce){ .hero-pic .drone{transition:none} .hero-pic:hover .drone{transform:none} }
+/* the about card shows the illustrated portrait */
+.ava{width:clamp(124px,13vw,184px);overflow:hidden;padding:0}
+.ava img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%}
+/* the hero greeting carries a small round portrait */
+.hero-pic .hi{display:inline-flex;align-items:center;gap:10px;padding:5px 18px 5px 5px;top:-30px}
+.hero-pic .hi img{width:52px;height:52px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;display:block;background:var(--sun)}
+.hero-pic .card{padding-top:36px}
+@media (max-width:560px){ .hero-pic .hi img{width:42px;height:42px} .hero-pic .hi{top:-26px} }

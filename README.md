@@ -12,12 +12,14 @@ Served by its own `caddy:2-alpine` container running `file_server`.
 ```
 site/index.html              the whole page
 site/assets/style.css        the whole stylesheet
-site/assets/app.js          the only script: fetches /assets/stats.json
+site/assets/app.js           the only script: host stats, the work-flow diagram, nav scrolling and reveal
 site/assets/stats.json       generated on the host by collect-stats.sh; git-ignored
 site/assets/favicon.svg, favicon-32.png, apple-touch-icon.png, site/favicon.ico   tab icons
-site/assets/og.png           1200x630 share image (Open Graph and Twitter card)
+site/assets/og.png           1200x630 share image (Open Graph and Twitter card), rendered from scripts/og/og.html
+site/robots.txt, sitemap.xml crawl hints; bump <lastmod> in the sitemap when the page changes
 site/assets/fonts/*.woff2    Space Grotesk (300–700), the only typeface
 scripts/collect-stats.sh     the generator for stats.json
+scripts/og/render.sh         re-renders og.png with headless Chrome; then update the ?v= on og:image
 compose.yml                  the one service, on idx_default
 motion/src/                  two Remotion compositions
 motion/out/                  projects.mp4, agents.mp4 and their posters
