@@ -276,7 +276,10 @@ h2.sub-h{margin-top:clamp(32px,3.4vw,44px)}
   .mech{grid-template-columns:minmax(0,1fr);row-gap:10px}
   .mech .no{grid-row:auto}
   nav .wrap{gap:8px;padding-top:12px;padding-bottom:12px}
-  nav .links a{padding:0 10px}
+  nav .links{gap:0;letter-spacing:.05em}
+  nav .links a{padding:0 9px}
+  /* four links fit one row on a phone; the agent section is one scroll away */
+  nav .links a[href="#agents"]{display:none}
 
   /* phone: same order as desktop, single-column compact cards */
   :root{--pad:16px;--hard:4px 4px 0 var(--ink);--hard-sm:3px 3px 0 var(--ink)}
@@ -298,6 +301,7 @@ h2.sub-h{margin-top:clamp(32px,3.4vw,44px)}
 }
 /* very narrow: stack the path top-down rather than let a node wrap */
 @media (max-width:350px){
+  nav .links a{padding:0 6px}
   .row{flex-direction:column;align-items:flex-start;gap:0}
   .link{width:2px;height:18px;flex:none;min-width:0;max-width:none;margin-left:30px}
   .link::after{right:auto;left:-5px;top:auto;bottom:-1px;

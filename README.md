@@ -74,7 +74,9 @@ BASELINE=/path/on/the/host/baseline-hosts-YYYYMMDD.txt scripts/collect-stats.sh
 Permitted figures: services running, host uptime, hostnames answering at baseline.
 Nothing else is displayed: no commit count, no uptime percentage, no agent count.
 
-The strip renders the three figures sourced today. A fourth figure also needs a
+The strip renders two of them: services running and host uptime. Hostnames
+answering is still collected but not shown, because it counts other sites on the
+host and a partial figure reads as this host being unhealthy. Any other figure also needs a
 matching entry in the `CARDS` list in `site/assets/app.js`; adding a key to
 `stats.json` alone does not render it.
 

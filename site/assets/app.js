@@ -21,7 +21,9 @@
     return isNaN(d.getTime()) ? null : d;
   };
 
-  /* cards in mockup order: pink, sun, cobalt */
+  /* cards in order: pink, sun. hostnames_answering is still collected but not
+     shown: it counts other people's hostnames too, and a partial figure reads
+     as this host being unhealthy. Shown always or never, not only when 20/20. */
   var CARDS = [
     {
       key: 'services_running',
@@ -44,16 +46,6 @@
         return { v: d > 0 ? String(d) : String(Math.floor(n / 3600)), u: d > 0 ? 'days, uninterrupted' : 'hours, uninterrupted' };
       },
       unit: 'without an interruption'
-    },
-    {
-      key: 'hostnames_answering',
-      tone: 'cobalt',
-      label: 'hostnames answering',
-      value: function (s) {
-        var a = num(s.hostnames_answering), t = num(s.hostnames_checked);
-        return a === null || t === null ? null : a + ' / ' + t;
-      },
-      unit: 'answered at the last sweep'
     }
   ];
 
