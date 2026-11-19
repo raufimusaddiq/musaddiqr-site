@@ -13,7 +13,7 @@ fills; do not soften it, round it off, or replace it with a generic dashboard.
 ## Dials
 
 - **ENERGY 3**: the page should say hello. Large statement type, saturated fills and hard shadows carry that.
-- **RHYTHM 3**: sections vary. Stats, project rows, motion, mechanisms, a connection map, principles and a stack use different compositions.
+- **RHYTHM 3**: sections vary. Hire paths, featured cards, project rows, motion, mechanisms, a connection map, principles and a stack use different compositions.
 - **MOTION 2**: motion is a showreel, not wallpaper. Two short pieces, always with controls; reduced motion shows the poster first and never autoplays.
 
 ## Palette
@@ -29,7 +29,7 @@ fills; do not soften it, round it off, or replace it with a generic dashboard.
 
 ## Layout and motion
 
-- One order at every width: role, statement, lede, actions, then the host snapshot as proof. The markup order is the reading order; no CSS `order` is used. The snapshot says so itself and never leads.
+- One order at every width: role, statement, plain sub-line, lede, availability, actions; then the two ways to hire (role or project), selected work, motion, mechanisms, map, principles, stack, and the host snapshot near the end as proof of operations. The markup order is the reading order; no CSS `order` is used. The snapshot says what it is and never leads.
 - Cards use 8/14/20px radii and 2px ink borders. The hard shadow is the elevation marker.
 - Videos are the only large motion. They have controls; under `prefers-reduced-motion` they show the poster and do not loop until the visitor presses play.
 - The page holds at 320, 390 and 1440 with no horizontal overflow. Tap targets are at least 44px and meaningful text is at least 14px.

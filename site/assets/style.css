@@ -92,6 +92,8 @@ nav .links a:hover{border-color:var(--ink)}
 
 #contact .cta{margin-top:0}
 
+/* hero and sections share the nav/footer column: capped at --maxw and centred */
+.hero,section{max-width:var(--maxw);margin-inline:auto}
 section{padding:clamp(40px,4.2vw,56px) var(--pad) 0}
 h2{font-family:var(--label);font-size:14px;letter-spacing:.16em;text-transform:uppercase;
    font-weight:500;margin-bottom:16px}
@@ -197,6 +199,61 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
 footer a{text-decoration:none}
 footer a:hover{text-decoration:underline}
 
+/* hero: plain-language sub-line and availability */
+.sub{font-size:clamp(19px,1.7vw,24px);font-weight:500;line-height:1.35;letter-spacing:-.01em;
+     margin-top:clamp(18px,2vw,26px);max-width:860px}
+.hero .sub + .lede{margin-top:14px}
+.avail{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:20px;
+       font-family:var(--label);font-size:14px;letter-spacing:.04em;color:var(--ink)}
+.avail b{font-weight:700;letter-spacing:.14em;text-transform:uppercase;background:var(--mint);
+         border:2px solid var(--ink);border-radius:var(--r-pill);padding:5px 12px}
+.avail > span{border:2px solid var(--ink);border-radius:var(--r-pill);padding:5px 12px;background:var(--card)}
+
+/* hire: two paths */
+.paths{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:20px}
+.path{border:2px solid var(--ink);border-radius:var(--r-lg);box-shadow:var(--hard);
+      padding:22px 24px 24px;background:var(--card);display:flex;flex-direction:column}
+.path.sun{background:var(--sun)}
+.path.mint{background:var(--mint)}
+.path .k{font-family:var(--label);font-size:14px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.path h3{font-size:clamp(20px,1.9vw,26px);font-weight:700;letter-spacing:-.02em;line-height:1.2;margin:10px 0 14px}
+.path ul{list-style:none;display:grid;gap:8px;font-size:15.5px;line-height:1.5}
+.path li{padding-left:18px;position:relative}
+.path li::before{content:"";position:absolute;left:0;top:.6em;width:8px;height:8px;
+                 background:var(--ink);border-radius:2px}
+.path .how{font-size:15px;line-height:1.5;margin-top:14px}
+.path .cta{margin-top:auto;padding-top:20px}
+
+/* selected work: three featured cards, then the compact list */
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:20px;margin-bottom:8px}
+.fcard{border:2px solid var(--ink);border-radius:var(--r-lg);background:var(--card);
+       box-shadow:var(--hard);padding:20px 22px 22px;text-decoration:none;color:var(--ink);
+       transition:transform .12s ease-out,box-shadow .12s}
+a.fcard:hover,a.fcard:focus-visible{transform:translate(2px,2px);box-shadow:var(--hard-sm)}
+.fcard .top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.fcard .nm{font-size:clamp(20px,1.8vw,24px);font-weight:700;letter-spacing:-.02em}
+.fcard dl{display:grid;gap:4px}
+.fcard dt{font-family:var(--label);font-size:14px;font-weight:700;letter-spacing:.12em;
+          text-transform:uppercase;margin-top:10px}
+.fcard dt:first-child{margin-top:0}
+.fcard dd{font-size:15px;line-height:1.5;color:var(--ink-2)}
+h2.sub-h{margin-top:clamp(32px,3.4vw,44px)}
+
+/* agents: the six mechanisms as a grid, not a long column */
+.mechs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:14px}
+.mechs .mech{margin-bottom:0;align-content:start}
+
+/* host snapshot, moved below the work it supports */
+#host .stats{margin-top:0}
+
+/* contact */
+.lead-in{font-size:clamp(17px,1.4vw,20px);line-height:1.5;margin-bottom:18px;max-width:760px}
+.elsewhere{display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:18px;
+           font-family:var(--label);font-size:14px;letter-spacing:.04em}
+.elsewhere a{color:var(--ink-2);min-height:44px;display:inline-flex;align-items:center}
+.elsewhere a:hover{color:var(--ink)}
+
+
 /* the map: below 960px a row no longer fits on one line, so it wraps */
 @media (max-width:960px){
   .lane{display:block;padding:16px 0}
@@ -232,6 +289,8 @@ footer a:hover{text-decoration:underline}
   .proj{padding:15px 16px;margin-bottom:10px}
   .proj .pm{gap:8px}
   .mech{padding:16px}
+  .path,.fcard{padding:18px;box-shadow:var(--hard)}
+  .feat,.paths{gap:14px}
   .prin{grid-template-columns:minmax(0,1fr);gap:10px}
   .prin div{padding:15px 16px}
   .node{padding:9px 11px}

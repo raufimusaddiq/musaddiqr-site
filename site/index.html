@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Raufi Musaddiq · Backend engineer</title>
-<meta name="description" content="Backend engineer at DANA Indonesia. Independent work on agent infrastructure, financial tooling and Indonesian-language media tooling.">
+<title>Raufi Musaddiq · Backend and agent infrastructure engineer</title>
+<meta name="description" content="Backend engineer at DANA Indonesia, working on security and user management. Open to remote backend roles and taking on projects: agent setups a team can trust, backend services and data pipelines.">
 <meta name="color-scheme" content="light">
-<link rel="stylesheet" href="assets/style.css?v=e57bc92b02-d1">
+<link rel="stylesheet" href="assets/style.css?v=24564aba85-d1">
 <link rel="canonical" href="https://musaddiqr.com/">
 <meta name="theme-color" content="#f4f1e8">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -15,8 +15,8 @@
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Raufi Musaddiq">
-<meta property="og:title" content="Raufi Musaddiq · Backend engineer">
-<meta property="og:description" content="Backend engineer at DANA Indonesia. Independent work on agent infrastructure, financial tooling and Indonesian-language media tooling.">
+<meta property="og:title" content="Raufi Musaddiq · Backend and agent infrastructure engineer">
+<meta property="og:description" content="Backend engineer at DANA Indonesia. Open to remote roles and taking on projects: agent setups a team can trust, backend services and data pipelines.">
 <meta property="og:url" content="https://musaddiqr.com/">
 <meta property="og:image" content="https://musaddiqr.com/assets/og.png">
 <meta property="og:image:type" content="image/png">
@@ -24,9 +24,24 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Agents do the work. I build what holds them. Raufi Musaddiq, backend engineer.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Raufi Musaddiq · Backend engineer">
-<meta name="twitter:description" content="Backend engineer at DANA Indonesia. Independent work on agent infrastructure, financial tooling and Indonesian-language media tooling.">
+<meta name="twitter:title" content="Raufi Musaddiq · Backend and agent infrastructure engineer">
+<meta name="twitter:description" content="Backend engineer at DANA Indonesia. Open to remote roles and taking on projects: agent setups a team can trust, backend services and data pipelines.">
 <meta name="twitter:image" content="https://musaddiqr.com/assets/og.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Raufi Musaddiq",
+  "url": "https://musaddiqr.com/",
+  "jobTitle": "Backend engineer",
+  "worksFor": {"@type": "Organization", "name": "DANA Indonesia"},
+  "alumniOf": {"@type": "CollegeOrUniversity", "name": "Universitas Gadjah Mada"},
+  "address": {"@type": "PostalAddress", "addressLocality": "Yogyakarta", "addressCountry": "ID"},
+  "email": "mailto:raufi@musaddiqr.com",
+  "knowsAbout": ["Backend engineering", "Security", "Agent infrastructure", "Java", "Go", "Python", "Kafka", "PostgreSQL"],
+  "sameAs": ["https://github.com/raufimusaddiq", "https://www.linkedin.com/in/raufi-musaddiq", "https://raufimusaddiq.github.io/"]
+}
+</script>
 </head>
 <body>
 
@@ -34,8 +49,10 @@
   <div class="wrap">
     <a class="brand" href="/">Raufi Musaddiq</a>
     <div class="links">
+      <a href="#hire">Hire</a>
       <a href="#work">Work</a>
       <a href="#agents">Agents</a>
+      <a href="https://raufimusaddiq.github.io/resume.pdf">Résumé</a>
       <a href="#contact">Contact</a>
     </div>
   </div>
@@ -45,31 +62,82 @@
 <div class="hero">
   <p class="role">Backend engineer · DANA Indonesia</p>
   <h1 class="stmt">Agents do the work.<br>I build what <span class="hl">holds them</span>.</h1>
-  <p class="lede">At DANA I work on security and user management. On my own time I build agent infrastructure, financial tooling and Indonesian-language media tooling, mostly the part around the model: the handoff that carries its own context, the gate a change has to pass, the deployment that waits for a person.</p>
+  <p class="sub">I build for the messy parts: systems that deal with retries, partial failures, human judgment and AI uncertainty without hiding the hard edges.</p>
+  <p class="lede">Since 2022 I've been a backend engineer at DANA, in Security and User Management. On my own time I build agent infrastructure, financial tooling and Indonesian-language media tooling, mostly the part around the model: the handoff that carries its own context, the gate a change has to pass, the deployment that waits for a person.</p>
+  <p class="avail"><b>Available</b> <span>remote backend and platform roles</span><span>selected projects</span><span>Yogyakarta, UTC+7</span><span>English · Bahasa Indonesia</span></p>
   <p class="cta">
-    <a class="btn primary" href="#work">See the work</a>
-    <a class="btn" href="mailto:raufi@musaddiqr.com">Contact</a>
+    <a class="btn primary" href="#hire">Work with me</a>
+    <a class="btn" href="#work">See the work</a>
   </p>
-
-  <div class="stats" id="stats" aria-live="polite" aria-busy="true"><p class="state">Reading host figures...</p></div>
-  <p class="stamp" id="stamp">Snapshot from the host that serves this page. Time and age appear below the cards.</p>
 </div>
 
+<section id="hire">
+  <h2>Two ways to work together</h2>
+  <p class="meta">pick the one that fits; both start with an email</p>
+  <div class="paths">
+    <div class="path sun">
+      <p class="k">Hiring for a team</p>
+      <h3>Eight years of shipping software; since 2022, security and accounts at a national e-wallet.</h3>
+      <ul>
+        <li><b>DANA Indonesia, 2022 to now:</b> built and operated verification paths (biometric and liveness, OTP, KBA, passkeys), owned account lifecycle from dormancy to step-up-verified deletion, and shipped distributed controls against OTP abuse.</li>
+        <li>Recurring payments across billing intervals, with first-payment handling, timeouts and bounded retries.</li>
+        <li><b>Before:</b> backend and IoT for drone operations and agriculture at Beehive Drones (2019 to 2022); Android with wearable telemetry at Majapahitech (2018 to 2019).</li>
+        <li>Java, Spring Boot, Kafka, OceanBase and MySQL at work. IT degree from Universitas Gadjah Mada.</li>
+      </ul>
+      <p class="cta">
+        <a class="btn primary" href="https://raufimusaddiq.github.io/resume.pdf">Résumé (PDF)</a>
+        <a class="btn" href="mailto:raufi@musaddiqr.com?subject=Role%3A%20">Email about a role</a>
+      </p>
+    </div>
+    <div class="path mint">
+      <p class="k">Have a project</p>
+      <h3>Building something with sharp edges? One engineer who owns it end to end.</h3>
+      <ul>
+        <li><b>Agent setups</b> a team can trust: handoffs with context, review gates, approvals before anything ships.</li>
+        <li><b>Backend services and pipelines</b>: APIs, ingestion, ledgers where the numbers have to be right.</li>
+        <li><b>Indonesian-language media tooling</b>: clipping and captioning for short-form video.</li>
+      </ul>
+      <p class="how">Start with an email: what you're building, where it breaks today, and when you need it.</p>
+      <p class="cta">
+        <a class="btn primary" href="mailto:raufi@musaddiqr.com?subject=Project%3A%20">Email about a project</a>
+      </p>
+    </div>
+  </div>
+</section>
+
 <section id="work">
-  <h2>Work</h2>
-  <p class="meta">seven public repositories · two private</p>
+  <h2>Selected work</h2>
+  <p class="meta">three to start with; the full list follows</p>
 
-  <a class="proj" href="https://github.com/raufimusaddiq/richmod">
-    <h3 class="nm">richmod</h3>
-    <p class="say">Self-hosted household finance system. Emails, Telegram messages and documents become an auditable ledger; the model interprets evidence, deterministic code owns the financial state.</p>
-    <div class="pm"><span class="chip">Go</span><span class="yr">Public</span></div>
-  </a>
+  <div class="feat">
+    <a class="fcard" href="https://github.com/raufimusaddiq/richmod">
+      <div class="top"><h3 class="nm">richmod</h3><span class="chip">Go</span></div>
+      <dl>
+        <dt>Problem</dt><dd>Household money lives in emails, chat messages and paper, and nobody can say where it went.</dd>
+        <dt>Built</dt><dd>A self-hosted finance system that turns emails, Telegram messages and documents into an auditable ledger.</dd>
+        <dt>The hard part</dt><dd>Model output is treated as untrusted input. PostgreSQL is the source of truth, deterministic code owns every balance, and anything uncertain goes to a person for review instead of a guess.</dd>
+      </dl>
+    </a>
+    <a class="fcard" href="https://github.com/raufimusaddiq/agenticform">
+      <div class="top"><h3 class="nm">agenticform</h3><span class="chip">Java</span></div>
+      <dl>
+        <dt>Problem</dt><dd>Coding agents working across many projects, with no one approving what they change.</dd>
+        <dt>Built</dt><dd>A Java control plane for multiple Codex agents across local and remote execution nodes, with approvals, policy gates and isolated workspaces.</dd>
+        <dt>The hard part</dt><dd>Recovery. Tasks are durable, so an agent or a node dying mid-task does not lose the work, and nothing ships past a policy gate without approval.</dd>
+      </dl>
+    </a>
+    <a class="fcard" href="https://github.com/raufimusaddiq/sorot">
+      <div class="top"><h3 class="nm">sorot</h3><span class="chip">TypeScript</span></div>
+      <dl>
+        <dt>Problem</dt><dd>Turning long Indonesian videos into short-form clips by hand takes hours per video.</dd>
+        <dt>Built</dt><dd>A local pipeline that transcribes long YouTube or local videos, scores candidate moments, renders vertical 9:16 clips with word-timed captions, and feeds real performance data back into its ranking.</dd>
+        <dt>The hard part</dt><dd>Choosing the moments. Whisper transcripts feed an explainable score, so every pick can be traced back to why it was chosen; an LLM is optional and everything runs on your own machine.</dd>
+      </dl>
+    </a>
+  </div>
 
-  <a class="proj" href="https://github.com/raufimusaddiq/agenticform">
-    <h3 class="nm">agenticform</h3>
-    <p class="say">Control plane for coding agents across projects, tasks and reviews, with approvals, policy gates and isolated workspaces.</p>
-    <div class="pm"><span class="chip">Java</span><span class="yr">Public</span></div>
-  </a>
+  <h2 class="sub-h">Everything else</h2>
+  <p class="meta">six public repositories · two private</p>
 
   <a class="proj" href="https://github.com/raufimusaddiq/literouter">
     <h3 class="nm">literouter</h3>
@@ -77,22 +145,10 @@
     <div class="pm"><span class="chip">JavaScript</span><span class="yr">Public</span></div>
   </a>
 
-  <a class="proj" href="https://github.com/raufimusaddiq/routeweft">
-    <h3 class="nm">routeweft</h3>
-    <p class="say">Routing control plane, tracked for behavioural parity against the router it replaces.</p>
-    <div class="pm"><span class="chip">Go</span><span class="yr">Public</span></div>
-  </a>
-
   <a class="proj" href="https://github.com/raufimusaddiq/antares">
     <h3 class="nm">antares</h3>
-    <p class="say">Google-authenticated chat UI for a deployed agent, with a private profile bound to each user.</p>
+    <p class="say">Google-authenticated chat UI for a deployed agent, with admin approval and a private profile bound to each user.</p>
     <div class="pm"><span class="chip">Go</span><span class="yr">Public</span></div>
-  </a>
-
-  <a class="proj" href="https://github.com/raufimusaddiq/sorot">
-    <h3 class="nm">sorot</h3>
-    <p class="say">Turns long videos into vertical 9:16 clips with word-timed captions, built for Indonesian short-form.</p>
-    <div class="pm"><span class="chip">TypeScript</span><span class="yr">Public</span></div>
   </a>
 
   <a class="proj" href="https://github.com/raufimusaddiq/agents">
@@ -117,9 +173,9 @@
 <section>
   <figure class="mo">
     <video muted playsinline preload="metadata" controls
-           poster="assets/motion/projects-poster.jpg?v=3e4f8ca3c2"
+           poster="assets/motion/projects-poster.jpg?v=a992c3194f"
            width="1920" height="1080" aria-label="The project list, as motion">
-      <source src="assets/motion/projects.mp4?v=c45322da14" type="video/mp4">
+      <source src="assets/motion/projects.mp4?v=310cb54c6b" type="video/mp4">
     </video>
     <figcaption>The project list, animated · no sound</figcaption>
   </figure>
@@ -129,55 +185,52 @@
   <h2>Agent infrastructure</h2>
   <p class="meta">six mechanisms in use, each with the failure it prevents</p>
 
-  <div class="mech pink">
-    <span class="no">01</span>
-    <h3>Agent-to-agent handoff</h3>
-    <p class="say">One agent passes work to another through a call that carries its own context and chat. The receiving agent starts with the whole brief and replies in the same thread, not in a blank session.</p>
-    <p class="prev"><b>Prevents</b>work arriving as a bare sentence with the reasoning stripped off.</p>
-  </div>
-
-  <div class="mech sun">
-    <span class="no">02</span>
-    <h3>Missions</h3>
-    <p class="say">A multi-ticket job runs inside one worktree, in its own turns, for as long as it takes, instead of one ticket per invocation.</p>
-    <p class="prev"><b>Prevents</b>a long job dying halfway with its state only in a chat log.</p>
-  </div>
-
-  <div class="mech cobalt">
-    <span class="no">03</span>
-    <h3>Scheduled cron jobs</h3>
-    <p class="say">A job runs on a schedule and speaks only when something is wrong.</p>
-    <p class="prev"><b>Prevents</b>a silent failure being found by a person weeks later.</p>
-  </div>
-
-  <div class="mech mint">
-    <span class="no">04</span>
-    <h3>Delegation to a coding agent</h3>
-    <p class="say">Code is written by a coding agent in its own session and working tree. A lead agent briefs it, routes the work and verifies the result.</p>
-    <p class="prev"><b>Prevents</b>two agents editing one file, and a claim of “done” going unchecked.</p>
-  </div>
-
-  <div class="mech pink">
-    <span class="no">05</span>
-    <h3>The review gate</h3>
-    <p class="say">A reviewer agent reviews every pull request on the exact commit. Findings go back to the authoring agent, fixes land as one commit per round, and nothing merges until the gate passes.</p>
-    <p class="prev"><b>Prevents</b>an unreviewed change reaching a deployed service.</p>
-  </div>
-
-  <div class="mech sun">
-    <span class="no">06</span>
-    <h3>One owner per task</h3>
-    <p class="say">Each task is assigned to exactly one agent and one branch.</p>
-    <p class="prev"><b>Prevents</b>a merge conflict discovered at merge time.</p>
+  <div class="mechs">
+    <div class="mech pink">
+      <span class="no">01</span>
+      <h3>Agent-to-agent handoff</h3>
+      <p class="say">Work passes between agents with its context and chat attached, and the reply comes back in the same thread.</p>
+      <p class="prev"><b>Prevents</b>work arriving as a bare sentence with the reasoning stripped off.</p>
+    </div>
+    <div class="mech sun">
+      <span class="no">02</span>
+      <h3>Missions</h3>
+      <p class="say">A multi-ticket job runs inside one worktree, in its own turns, for as long as it takes.</p>
+      <p class="prev"><b>Prevents</b>a long job dying halfway with its state only in a chat log.</p>
+    </div>
+    <div class="mech cobalt">
+      <span class="no">03</span>
+      <h3>Scheduled cron jobs</h3>
+      <p class="say">A job runs on a schedule and speaks only when something is wrong.</p>
+      <p class="prev"><b>Prevents</b>a silent failure being found by a person weeks later.</p>
+    </div>
+    <div class="mech mint">
+      <span class="no">04</span>
+      <h3>Delegation to a coding agent</h3>
+      <p class="say">A lead agent briefs a coding agent in its own session and working tree, then verifies the result.</p>
+      <p class="prev"><b>Prevents</b>two agents editing one file, and a claim of “done” going unchecked.</p>
+    </div>
+    <div class="mech pink">
+      <span class="no">05</span>
+      <h3>The review gate</h3>
+      <p class="say">A reviewer agent checks every pull request on the exact commit; nothing merges until it passes.</p>
+      <p class="prev"><b>Prevents</b>an unreviewed change reaching a deployed service.</p>
+    </div>
+    <div class="mech sun">
+      <span class="no">06</span>
+      <h3>One owner per task</h3>
+      <p class="say">Each task is assigned to exactly one agent and one branch.</p>
+      <p class="prev"><b>Prevents</b>a merge conflict discovered at merge time.</p>
+    </div>
   </div>
 </section>
 
 <section>
   <figure class="mo">
     <video muted playsinline preload="metadata" controls
-           poster="assets/motion/agents-poster.jpg?v=6bc1a3edea"
+           poster="assets/motion/agents-poster.jpg?v=c37721341e"
            width="1920" height="1080" aria-label="The six mechanisms, as motion">
-      <source src="assets/motion/agents.mp4?v=bb5771f76b" type="video/mp4">
+      <source src="assets/motion/agents.mp4?v=7cfaee19fa" type="video/mp4">
     </video>
     <figcaption>The six mechanisms, animated · no sound</figcaption>
   </figure>
@@ -235,17 +288,32 @@
 <section id="stack">
   <h2>Working set</h2>
   <div class="set">
-    <div class="grp"><h3>Backend</h3><p>Java · Spring · Go · Python · PostgreSQL · SQLite · Kafka</p></div>
-    <div class="grp"><h3>Product</h3><p>TypeScript · JavaScript · React</p></div>
+    <div class="grp"><h3>Backend</h3><p>Java · Spring · Go · Python · PostgreSQL · OceanBase · SQLite · Kafka</p></div>
+    <div class="grp"><h3>Product</h3><p>TypeScript · JavaScript · React · Next.js</p></div>
     <div class="grp"><h3>Operations</h3><p>Docker · Linux · Caddy · Cloudflare · GitHub Actions</p></div>
   </div>
 </section>
+
+<section id="host">
+  <h2>Running right now</h2>
+  <p class="meta">this page is served from my own host; the figures below are read from it</p>
+  <div class="stats" id="stats" aria-live="polite" aria-busy="true"><p class="state">Reading host figures...</p></div>
+  <p class="stamp" id="stamp">Snapshot from the host that serves this page. Time and age appear below the cards.</p>
+</section>
+
 <section id="contact">
   <h2>Contact</h2>
-  <p class="meta">reach me by email</p>
+  <p class="lead-in">Building something with sharp edges, or hiring for a team that is? Tell me what it is.</p>
   <p class="cta">
-    <a class="btn primary" href="mailto:raufi@musaddiqr.com">raufi@musaddiqr.com</a>
-    <a class="btn" href="mailto:raufimusaddiq@gmail.com">raufimusaddiq@gmail.com</a>
+    <a class="btn primary" href="mailto:raufi@musaddiqr.com?subject=Role%3A%20">Email about a role</a>
+    <a class="btn primary" href="mailto:raufi@musaddiqr.com?subject=Project%3A%20">Email about a project</a>
+  </p>
+  <p class="elsewhere">
+    <a href="mailto:raufi@musaddiqr.com">raufi@musaddiqr.com</a>
+    <a href="mailto:raufimusaddiq@gmail.com">raufimusaddiq@gmail.com</a>
+    <a href="https://github.com/raufimusaddiq">GitHub</a>
+    <a href="https://www.linkedin.com/in/raufi-musaddiq">LinkedIn</a>
+    <a href="https://raufimusaddiq.github.io/resume.pdf">Résumé (PDF)</a>
   </p>
 </section>
 </main>
@@ -258,6 +326,6 @@
   </div>
 </footer>
 
-<script src="assets/app.js?v=d6b582ca6b-d1" defer></script>
+<script src="assets/app.js?v=a98158bf5f-d1" defer></script>
 </body>
 </html>
