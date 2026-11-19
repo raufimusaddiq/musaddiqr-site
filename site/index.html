@@ -6,7 +6,7 @@
 <title>Raufi Musaddiq · Backend and agent infrastructure engineer</title>
 <meta name="description" content="Backend engineer at DANA Indonesia, working on security and user management. Open to remote backend roles and taking on projects: agent setups a team can trust, backend services and data pipelines.">
 <meta name="color-scheme" content="light">
-<link rel="stylesheet" href="assets/style.css?v=24564aba85-d1">
+<link rel="stylesheet" href="assets/style.css?v=c309b9772d-d1">
 <link rel="canonical" href="https://musaddiqr.com/">
 <meta name="theme-color" content="#f4f1e8">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -119,11 +119,11 @@
       </dl>
     </a>
     <a class="fcard" href="https://github.com/raufimusaddiq/agenticform">
-      <div class="top"><h3 class="nm">agenticform</h3><span class="chip">Java</span></div>
+      <div class="top"><h3 class="nm">agenticform</h3><span class="chip">TypeScript</span></div>
       <dl>
-        <dt>Problem</dt><dd>Coding agents working across many projects, with no one approving what they change.</dd>
-        <dt>Built</dt><dd>A Java control plane for multiple Codex agents across local and remote execution nodes, with approvals, policy gates and isolated workspaces.</dd>
-        <dt>The hard part</dt><dd>Recovery. Tasks are durable, so an agent or a node dying mid-task does not lose the work, and nothing ships past a policy gate without approval.</dd>
+        <dt>Problem</dt><dd>Every coding agent (Claude Code, Codex, OpenCode and the rest) has its own interface, so anything that drives them is rewritten per agent, and running one on a shared machine is a risk.</dd>
+        <dt>Built</dt><dd>One execution fabric for eight agent harnesses: a library, HTTP API, CLI and MCP server over a hub and outbound-only nodes. Switching agents is a one-line change.</dd>
+        <dt>The hard part</dt><dd>Safe by default. Every harness runs in a bubblewrap sandbox, and a node whose sandbox self-test fails refuses all runs rather than run unsandboxed. Commands hit a durable ledger before any effect, and permission requests are denied unless the caller allows them.</dd>
       </dl>
     </a>
     <a class="fcard" href="https://github.com/raufimusaddiq/sorot">
@@ -175,7 +175,7 @@
     <video muted playsinline preload="metadata" controls
            poster="assets/motion/projects-poster.jpg?v=a992c3194f"
            width="1920" height="1080" aria-label="The project list, as motion">
-      <source src="assets/motion/projects.mp4?v=310cb54c6b" type="video/mp4">
+      <source src="assets/motion/projects.mp4?v=3ef904ba4b" type="video/mp4">
     </video>
     <figcaption>The project list, animated · no sound</figcaption>
   </figure>
@@ -326,6 +326,6 @@
   </div>
 </footer>
 
-<script src="assets/app.js?v=a98158bf5f-d1" defer></script>
+<script src="assets/app.js?v=af6b60d8ca-d1" defer></script>
 </body>
 </html>

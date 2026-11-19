@@ -3,7 +3,7 @@
 
 export const PROJECTS = [
   {name: 'richmod', say: 'Self-hosted household finance system. Emails, Telegram messages and documents become an auditable ledger; model output is untrusted, deterministic code owns every balance.', lang: 'Go', vis: 'Public', url: 'github.com/raufimusaddiq/richmod'},
-  {name: 'agenticform', say: 'Java control plane for Codex agents across local and remote nodes, with durable tasks, approvals, policy gates and isolated workspaces.', lang: 'Java', vis: 'Public', url: 'github.com/raufimusaddiq/agenticform'},
+  {name: 'agenticform', say: 'One API for eight coding-agent harnesses, from Claude Code to Codex: a hub, sandboxed nodes on each machine, and a library, CLI and MCP server on top.', lang: 'TypeScript', vis: 'Public', url: 'github.com/raufimusaddiq/agenticform'},
   {name: 'literouter', say: 'A lighter router over many LLM providers, forked from 9router and reworked.', lang: 'JavaScript', vis: 'Public', url: 'github.com/raufimusaddiq/literouter'},
   {name: 'antares', say: 'Google-authenticated chat UI for a deployed agent, with admin approval and a private profile bound to each user.', lang: 'Go', vis: 'Public', url: 'github.com/raufimusaddiq/antares'},
   {name: 'sorot', say: 'Turns long videos into vertical 9:16 clips with word-timed captions for Indonesian short-form; explainable scoring picks the moments, all run locally.', lang: 'TypeScript', vis: 'Public', url: 'github.com/raufimusaddiq/sorot'},

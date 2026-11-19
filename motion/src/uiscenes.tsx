@@ -280,152 +280,86 @@ const RichmodApp = (f: number) => {
   );
 };
 
-/* ---------- 2. agenticform (from web/src/styles.css, approvals.css, App.tsx: dark CRT, square, red accent) ---------- */
+/* ---------- 2. agenticform (from packages/hub/src/ui: index.html, app.css, app.js: the hub's plain operator console) ---------- */
 
-const AF = {bg: '#0a0a0a', deep: '#070707', panel: '#101010', panel2: '#151515', panel3: '#1a1a1a', ink: '#eaeaea', dim: '#a3a3a3', faint: '#6d6d6d', line: '#2a2a2a', strong: '#3d3d3d', red: '#e61919', amber: '#e6b35c', green: '#4af626'};
-const HEAD = `'Archivo Black', 'Helvetica Neue', Helvetica, Arial, sans-serif`;
+const AFH = {bg: '#ffffff', ink: '#111111', dim: '#555555', line: '#111111', btn: '#efefef', btnLine: '#767676'};
+const SYS = `system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif`;
+
+/* illustrative machines and one run, in the console's own row and line formats */
+const AF_NODES: [string, string, string, string, string][] = [
+  ['devbox-a', 'online', 'claude, codex, opencode', '1/2', '2026-11-19T12:04:11Z'],
+  ['devbox-b', 'online', 'codex, hermes, pi', '0/1', '2026-11-19T12:04:09Z'],
+  ['ci-runner', 'offline', 'codex', '0/1', '2026-11-19T11:41:52Z'],
+];
+const AF_EVENTS: [string, string][] = [
+  ['run.started', '{"harness":"codex"}'],
+  ['run.capabilities', '{"streaming":true}'],
+  ['turn.started', '{}'],
+  ['message.delta', '{"text":"Reading the failing test first."}'],
+  ['tool.call', '{"name":"bash","input":"bun test packages/hub"}'],
+  ['tool.update', '{"status":"completed"}'],
+  ['message.delta', '{"text":"The lease check compared the wrong clock."}'],
+  ['tool.call', '{"name":"edit","path":"packages/hub/src/runs.ts"}'],
+  ['turn.finished', '{}'],
+  ['run.finished', '{"status":"completed"}'],
+];
 
 const AgenticformApp = (f: number) => {
-  const sel = pf(f, 10, 14) > 0.5;
-  const press = f > 54 && f < 60;
-  const approved = f >= 60;
-  const hist = pf(f, 64, 74);
-  const pending = approved ? 1 : 2;
-  const cap = (t: string) => <div style={{fontSize: 10, letterSpacing: '0.2em', color: AF.faint, padding: '16px 18px 6px'}}>[{t}]</div>;
-  const nav = (t: string, active = false, count?: number) => (
-    <div style={{display: 'flex', justifyContent: 'space-between', padding: '7px 18px', fontSize: 13, background: active ? AF.red : 'transparent', color: active ? '#fff' : AF.dim, fontWeight: active ? 700 : 400, borderLeft: `3px solid ${active ? '#fff' : 'transparent'}`}}>
-      <span>{active ? '# ' : ''}{t}</span>
-      {count ? <span style={{color: active ? '#fff' : AF.amber}}>{count}</span> : null}
-    </div>
+  const runView = f >= 40;
+  const shown = runView ? Math.max(0, Math.min(AF_EVENTS.length, Math.floor((f - 44) / 4.6) + 1)) : 0;
+  const done = shown >= AF_EVENTS.length;
+  const btn = (t: string, pressed = false): React.ReactNode => (
+    <span style={{display: 'inline-block', fontSize: 15, padding: '3px 10px', border: `1px solid ${AFH.btnLine}`, borderRadius: 3, background: pressed ? '#dcdcdc' : AFH.btn}}>{t}</span>
   );
-  const pill = (label: string, c: string) => (
-    <span style={{fontSize: 11, letterSpacing: '0.06em', color: c}}>
-      <span style={{color: AF.strong}}>&lt;</span>
-      <span style={{display: 'inline-block', width: 7, height: 7, background: c, margin: '0 5px 1px 3px'}} />
-      {label}
-      <span style={{color: AF.strong}}>&gt;</span>
-    </span>
-  );
-  const th: React.CSSProperties = {textAlign: 'left', fontSize: 10, letterSpacing: '0.16em', color: AF.faint, padding: '8px 12px', background: AF.deep, borderBottom: `1px solid ${AF.strong}`, fontWeight: 400};
-  const td: React.CSSProperties = {padding: '11px 12px', fontSize: 12.5, borderBottom: `1px solid ${AF.line}`};
-  const row = (name: string, agent: string, proj: string, risk: string, riskC: string, status: string, stC: string, selected: boolean) => (
-    <tr style={{background: selected ? AF.panel3 : 'transparent', boxShadow: selected ? `inset 3px 0 0 ${AF.red}` : 'none'}}>
-      <td style={td}>{name}</td>
-      <td style={{...td, color: AF.dim}}>{agent}</td>
-      <td style={{...td, color: AF.dim}}>{proj}</td>
-      <td style={{...td, color: riskC}}>{risk}</td>
-      <td style={td}>{pill(status, stC)}</td>
-    </tr>
-  );
-  const kv = (k: string, v: React.ReactNode) => (
-    <div style={{display: 'flex', gap: 12, fontSize: 12, padding: '5px 0', borderBottom: `1px solid ${AF.line}`}}>
-      <span style={{width: 120, color: AF.faint, letterSpacing: '0.04em'}}>{k}</span>
-      <span style={{flex: 1}}>{v}</span>
-    </div>
-  );
+  const th: React.CSSProperties = {textAlign: 'left', padding: '6px 10px', borderBottom: `1px solid ${AFH.line}`, fontWeight: 700};
+  const td: React.CSSProperties = {textAlign: 'left', padding: '6px 10px', borderBottom: `1px solid ${AFH.line}`};
+  const stamp = (i: number) => `2026-11-19T12:04:${String(12 + i * 3).padStart(2, '0')}Z`;
   return (
-    <div style={{display: 'flex', width: W, height: H, background: AF.bg, fontFamily: MONO, color: AF.ink, position: 'relative'}}>
-      <div style={{width: 212, background: AF.deep, borderRight: `2px solid ${AF.strong}`, display: 'flex', flexDirection: 'column'}}>
-        <div style={{padding: '18px 18px 8px'}}>
-          <div style={{fontFamily: HEAD, fontWeight: 900, textTransform: 'uppercase', fontSize: 19, letterSpacing: '-0.04em'}}>Agenticform</div>
-          <div style={{fontSize: 10, color: AF.faint, marginTop: 4, letterSpacing: '0.14em'}}>Unit / CP-01</div>
+    <div style={{width: W, height: H, background: AFH.bg, color: AFH.ink, fontFamily: SYS, fontSize: 16, lineHeight: 1.4}}>
+      {/* the console's 60rem column at about 130% browser zoom, so it reads at the scale of the other scenes */}
+      <div style={{maxWidth: 900, margin: '0 auto', padding: '18px 24px', zoom: 1.32}}>
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <div style={{fontSize: 21, fontWeight: 700}}>Agenticform hub</div>
+          {btn('Sign out')}
         </div>
-        {cap('Workspace')}
-        {nav('Overview')}
-        {nav('Projects')}
-        {nav('Agents')}
-        {nav('Tasks')}
-        {cap('Supervision')}
-        {nav('Messages')}
-        {nav('Operations')}
-        {nav('Approvals', true, pending)}
-        {nav('Policy')}
-        <div style={{marginTop: 'auto', padding: '14px 18px', borderTop: `1px solid ${AF.line}`, fontSize: 11}}>
-          <div style={{color: AF.faint, letterSpacing: '0.14em', fontSize: 10}}>CONTROL PLANE</div>
-          <div style={{marginTop: 4}}>Connected</div>
+        <div style={{display: 'flex', gap: 8, margin: '16px 0'}}>
+          {btn('Machines', !runView && f > 2)}
+          {btn('Runs', f >= 34 && f < 40)}
         </div>
-      </div>
-      <div style={{flex: 1, minWidth: 0}}>
-        <div style={{display: 'flex', alignItems: 'center', padding: '16px 22px', borderBottom: `2px solid ${AF.strong}`}}>
-          <div>
-            <div style={{fontSize: 11, color: AF.red, letterSpacing: '0.1em'}}>/// All projects</div>
-            <div style={{fontFamily: HEAD, fontWeight: 900, textTransform: 'uppercase', fontSize: 34, letterSpacing: '-0.05em', lineHeight: 0.95, marginTop: 4}}>Approvals</div>
-          </div>
-          <div style={{marginLeft: 'auto', display: 'flex', gap: 8, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase'}}>
-            <span style={{border: `1px solid ${AF.strong}`, padding: '7px 10px'}}>All projects ▾</span>
-            <span style={{border: `1px solid ${AF.strong}`, padding: '7px 10px'}}>Execution nodes</span>
-            <span style={{border: `1px solid ${AF.strong}`, padding: '7px 10px'}}>New task</span>
-            <span style={{background: AF.red, color: '#fff', padding: '8px 12px', fontWeight: 700}}>Spawn agent</span>
-          </div>
-        </div>
-        <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: `1px solid ${AF.strong}`}}>
-          <div style={{padding: '11px 22px', fontSize: 11.5, lineHeight: 1.5, color: AF.dim, borderRight: `1px solid ${AF.line}`}}>
-            <b style={{color: AF.ink}}>Human-in-the-loop</b> Tightens configured ALLOW decisions into one-shot human review. DENY can never be weakened.
-          </div>
-          <div style={{padding: '11px 22px', fontSize: 11.5, lineHeight: 1.5, color: AF.dim}}>
-            <b style={{color: AF.ink}}>Human-on-the-loop</b> Deterministic policy decides: ALLOW continues, REQUIRE HUMAN stops here, and DENY is rejected without an override.
-          </div>
-        </div>
-        <div style={{display: 'flex', borderBottom: `1px solid ${AF.strong}`}}>
-          <div style={{flex: 1.5, borderRight: `1px solid ${AF.strong}`}}>
-            <div style={{display: 'flex', justifyContent: 'space-between', padding: '10px 14px', background: AF.panel2, borderBottom: `1px solid ${AF.strong}`, fontSize: 13, fontWeight: 700}}>
-              <span><span style={{color: AF.red}}>[ ]</span> Pending decisions</span>
-              <span style={{color: AF.amber}}>{pending}</span>
-            </div>
-            <table style={{width: '100%', borderCollapse: 'collapse'}}>
+        {!runView ? (
+          <div style={{opacity: pf(f, 0, 8)}}>
+            <div style={{fontSize: 24, fontWeight: 700, margin: '4px 0 12px'}}>Machines</div>
+            <div style={{marginBottom: 12}}>{btn('Refresh')}</div>
+            <table style={{borderCollapse: 'collapse', width: '100%', fontSize: 16}}>
               <thead>
-                <tr>
-                  {['REQUEST', 'AGENT', 'PROJECT', 'RISK', 'STATUS'].map((h) => (
-                    <th key={h} style={th}>{h}</th>
-                  ))}
-                </tr>
+                <tr>{['Name', 'Status', 'Harnesses', 'Capacity', 'Last heartbeat'].map((h) => <th key={h} style={th}>{h}</th>)}</tr>
               </thead>
               <tbody>
-                {!approved && row('Apply migration 0042 to production', 'mira', 'billing-api', 'high', AF.red, 'Needs approval', AF.amber, sel)}
-                {row('Install dependency left-pad@1.3', 'kano', 'web-app', 'elevated', AF.amber, 'Needs approval', AF.amber, false)}
+                {AF_NODES.map((n, i) => (
+                  <tr key={n[0]} style={{opacity: pf(f, 6 + i * 5, 14 + i * 5)}}>
+                    {n.map((c, j) => <td key={j} style={{...td, color: j === 1 && c === 'offline' ? AFH.dim : AFH.ink}}>{c}</td>)}
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
-          <div style={{flex: 1, padding: '12px 16px', background: AF.panel2, minHeight: 330}}>
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'baseline'}}>
-              <b style={{fontSize: 14}}>{approved ? 'Apply migration 0042' : 'Apply migration 0042 to production'}</b>
-              <span style={{fontSize: 11, color: AF.red, border: `1px solid ${AF.red}`, padding: '1px 6px'}}>high</span>
+        ) : (
+          <div style={{opacity: pf(f, 40, 46)}}>
+            <div style={{fontSize: 24, fontWeight: 700, margin: '4px 0 8px'}}>Run run_01JD7Q3K9V</div>
+            <div style={{margin: '0 0 10px'}}>Status: <b>{done ? 'completed' : 'running'}</b></div>
+            <div style={{display: 'flex', gap: 8, marginBottom: 14}}>
+              <span style={{opacity: done ? 0.45 : 1}}>{btn('Cancel')}</span>
+              {btn('Back')}
             </div>
-            <div style={{fontSize: 11, color: AF.faint, margin: '3px 0 8px'}}>billing-api / mira</div>
-            {kv('Policy action', 'Require human')}
-            {kv('Matched rule', 'destructive-schema-change')}
-            {kv('Requested action', 'Run database migration')}
-            {kv('Working directory', '/srv/billing-api')}
-            <div style={{borderLeft: `6px solid ${AF.red}`, background: AF.deep, padding: '8px 12px', margin: '10px 0', fontSize: 12, minHeight: 36}}>{typed('psql -f 0042_add_settled_at.sql', f, 14, 1.3)}</div>
-            <div style={{display: 'flex', gap: 8, opacity: approved ? 0.3 : 1}}>
-              <span style={{background: AF.red, color: '#fff', padding: '8px 14px', fontSize: 11, letterSpacing: '0.1em', fontWeight: 700, textTransform: 'uppercase', transform: press ? 'scale(0.96)' : 'none'}}>Approve once</span>
-              <span style={{border: `1px solid ${AF.red}`, color: AF.red, padding: '8px 14px', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase'}}>Decline</span>
-            </div>
-            {approved && <div style={{marginTop: 10, fontSize: 12, color: AF.ink}}>{pill('approved', AF.ink)} <span style={{color: AF.dim}}>once · agent resumes</span></div>}
-          </div>
-        </div>
-        <div style={{padding: '10px 14px', background: AF.panel2, fontSize: 13, fontWeight: 700, borderBottom: `1px solid ${AF.strong}`}}>
-          <span style={{color: AF.red}}>[ ]</span> Decision history
-        </div>
-        {approved && (
-          <div style={{display: 'flex', alignItems: 'center', gap: 14, padding: '9px 14px', fontSize: 12, borderBottom: `1px solid ${AF.line}`, opacity: hist, transform: `translateY(${(1 - hist) * -10}px)`, background: AF.panel3}}>
-            <span style={{flex: 1}}>Apply migration 0042 <span style={{color: AF.faint}}>billing-api / mira</span></span>
-            <span style={{color: AF.red}}>high</span>
-            <span style={{border: `1px solid ${AF.strong}`, padding: '0 6px', fontSize: 10}}>REQUIRE_HUMAN</span>
-            {pill('approved', AF.ink)}
+            <ol style={{fontFamily: MONO, fontSize: 14, margin: 0, paddingLeft: 30, lineHeight: 1.55}}>
+              {AF_EVENTS.slice(0, shown).map(([t, d], i) => (
+                <li key={i} style={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
+                  {`${i + 1} ${stamp(i)} ${t} ${d}`}
+                </li>
+              ))}
+            </ol>
           </div>
         )}
-        {[
-          ['Run unit test suite', 'billing-api / mira', 'low', 'ALLOW', 'Auto approved'],
-          ['Push branch agent/mira', 'web-app / kano', 'elevated', 'REQUIRE_HUMAN', 'approved'],
-        ].map(([a, b, c, d, e]) => (
-          <div key={a} style={{display: 'flex', alignItems: 'center', gap: 14, padding: '9px 14px', fontSize: 12, borderBottom: `1px solid ${AF.line}`, color: AF.dim}}>
-            <span style={{flex: 1, color: AF.ink}}>{a} <span style={{color: AF.faint}}>{b}</span></span>
-            <span>{c}</span>
-            <span style={{border: `1px solid ${AF.strong}`, padding: '0 6px', fontSize: 10}}>{d}</span>
-            <span style={{fontSize: 11}}>{e}</span>
-          </div>
-        ))}
       </div>
     </div>
   );
@@ -898,7 +832,7 @@ const AgentsApp = (f: number) => {
 
 const SCENES = [
   {key: 'richmod', title: 'richmod · household finance', app: RichmodApp},
-  {key: 'agenticform', title: 'agenticform · approvals', app: AgenticformApp},
+  {key: 'agenticform', title: 'agenticform · hub', app: AgenticformApp},
   {key: 'literouter', title: 'literouter · dashboard', app: LiterouterApp},
   {key: 'antares', title: 'antares · chat', app: AntaresApp},
   {key: 'sorot', title: 'sorot · studio', app: SorotApp},
