@@ -565,3 +565,24 @@ a.mcard .nm::after{content:"\2197";font-size:.7em;margin-left:.45em;vertical-ali
 .hero-pic .hi img{width:52px;height:52px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;display:block;background:var(--sun)}
 .hero-pic .card{padding-top:36px}
 @media (max-width:560px){ .hero-pic .hi img{width:42px;height:42px} .hero-pic .hi{top:-26px} }
+/* below the two-column hero: the greeting leads, the scene shrinks */
+.hi-top{display:none}
+@media (max-width:999.98px){
+  .hi-top{display:inline-flex;align-items:center;gap:10px;margin:0 0 20px;padding:5px 18px 5px 5px;background:var(--card);
+          border:2px solid var(--ink);border-radius:var(--r-pill);box-shadow:var(--hard-sm);transform:rotate(-2deg);
+          font-size:17px;font-weight:700;letter-spacing:-.01em}
+  .hi-top img{width:46px;height:46px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;display:block}
+  .hero-pic .hi{display:none}
+  .hero-pic{width:min(100%,600px);margin-inline:auto}
+  .hero-pic .card{padding-top:18px}
+}
+/* shared drawing symbols live in a sprite that is never displayed itself */
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+.hero-pic .scene-wide{display:none}
+@media (max-width:999.98px){
+  .hero-pic .scene-tall{display:none}
+  .hero-pic .scene-wide{display:block}
+  .hero-pic .card{padding:16px 14px 6px;transform:none}
+}
+/* the greeting sits straight */
+.hi,.hero-pic .hi,.hi-top{transform:none}
