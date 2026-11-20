@@ -32,6 +32,17 @@ sed -i \
 
 printf 'style.css?v=%s\napp.js?v=%s\n' "$css" "$js"
 
+# The legal pages (/privacy/, /terms/) share style.css and add legal.css.
+legal=$(sha256sum "$root/site/assets/legal.css" | cut -c1-10)
+for page in "$root/site/privacy/index.html" "$root/site/terms/index.html"; do
+  [ -f "$page" ] || continue
+  sed -i \
+    -e "s|assets/style\.css\(\?v=[0-9a-f]*\)\{0,1\}|assets/style.css?v=$css|g" \
+    -e "s|assets/legal\.css\(\?v=[0-9a-f]*\)\{0,1\}|assets/legal.css?v=$legal|g" \
+    "$page"
+done
+printf 'legal.css?v=%s\n' "$legal"
+
 # The videos and posters live in motion/out (mounted at assets/motion/). Their file
 # names never change between renders, so they get the same ?v= treatment.
 for f in projects.mp4 agents.mp4 projects-poster.jpg agents-poster.jpg; do
